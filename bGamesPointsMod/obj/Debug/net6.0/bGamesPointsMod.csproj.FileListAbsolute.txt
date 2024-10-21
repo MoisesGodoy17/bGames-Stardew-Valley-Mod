@@ -1,0 +1,16 @@
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\bin\Debug\net6.0\bGamesPointsMod.deps.json
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\bin\Debug\net6.0\bGamesPointsMod.dll
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.csproj.AssemblyReference.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.AssemblyInfoInputs.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.AssemblyInfo.cs
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.csproj.CoreCompileInputs.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Mod bGames - Stardew Valley\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.dll
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\bin\Debug\net6.0\bGamesPointsMod.deps.json
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\bin\Debug\net6.0\bGamesPointsMod.dll
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.csproj.AssemblyReference.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.AssemblyInfoInputs.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.AssemblyInfo.cs
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.csproj.CoreCompileInputs.cache
+C:\Users\moise\OneDrive\Escritorio\C# Stardew Valley\Copia mod 26-09-2024\bGamesPointsMod\bGamesPointsMod\obj\Debug\net6.0\bGamesPointsMod.dll
