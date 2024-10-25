@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj": {}
+    "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj": {}
   },
   "projects": {
-    "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj": {
+    "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj",
+        "projectUniqueName": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj",
         "projectName": "bGamesPointsMod",
-        "projectPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj",
+        "projectPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj",
         "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\obj\\",
+        "outputPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "Pathoschild.Stardew.ModBuildConfig": {
               "target": "Package",
               "version": "[4.2.0, )"

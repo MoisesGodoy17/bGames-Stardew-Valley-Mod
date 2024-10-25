@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WyjCyr7Mlgs=",
+  "dgSpecHash": "UjIu7IoLxSs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj",
+  "projectFilePath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\moise\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\moise\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.2.0\\pathoschild.stardew.modbuildconfig.4.2.0.nupkg.sha512"
   ],
   "logs": []

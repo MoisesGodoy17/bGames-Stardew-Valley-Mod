@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Pathoschild.Stardew.ModBuildConfig/4.2.0": {
         "type": "package",
         "build": {
@@ -11,6 +24,36 @@
     }
   },
   "libraries": {
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Pathoschild.Stardew.ModBuildConfig/4.2.0": {
       "sha512": "9ovQIsZsbtIAdgR2/SJJksnVZ4YQlvJ2VOTms+y9NBm9y5yu/fJ+GT+Loeuw9K2TIa6WAPFYaGw1pRFnLwAMvQ==",
       "type": "package",
@@ -34,6 +77,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Newtonsoft.Json >= 13.0.3",
       "Pathoschild.Stardew.ModBuildConfig >= 4.2.0"
     ]
   },
@@ -43,11 +87,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj",
+      "projectUniqueName": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj",
       "projectName": "bGamesPointsMod",
-      "projectPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\bGamesPointsMod.csproj",
+      "projectPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\bGamesPointsMod.csproj",
       "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\obj\\",
+      "outputPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -81,6 +125,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
+          },
           "Pathoschild.Stardew.ModBuildConfig": {
             "target": "Package",
             "version": "[4.2.0, )"

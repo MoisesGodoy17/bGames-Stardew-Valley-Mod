@@ -17,9 +17,12 @@ namespace bGamesPointsMod
         private BuffModel miningBuff;
         private BuffModel foraningBuff;
         private BuffModel speedBuff;
+        private UserBgamesModel userBgamesModel;
 
         // Controlador de Buffs
         public BuffController buffController;
+
+        private UserBgamesController userController;
 
         // Boton de menu de mod
         private Texture2D bTMenuMod;
@@ -30,7 +33,7 @@ namespace bGamesPointsMod
         public override void Entry(IModHelper helper) // Función principal
         {
             // Inicializar Buffs
-            miningBuff = new BuffModel("Velocidad de minado", 0.5f, 0,-1);
+            miningBuff = new BuffModel("Velocidad de minado", 0.5f, 0, -1);
             foraningBuff = new BuffModel("Velocidad de tala", 0.5f, 0, -1);
             speedBuff = new BuffModel("Velocidad de caminata", 0.5f, 0, -1);
 
@@ -40,6 +43,7 @@ namespace bGamesPointsMod
 
             // Crear instancia de BuffController
             buffController = new BuffController(this.Monitor, this.Helper, miningBuff, foraningBuff, speedBuff);
+            userController = new UserBgamesController(this.Monitor, helper, userBgamesModel);
 
             // Crear instancia de Menu
             menu = new Menu(helper, buffController);
@@ -48,6 +52,9 @@ namespace bGamesPointsMod
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
             helper.Events.Display.RenderedHud += OnRenderedHud;
+
+            //Evento login
+            helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
         }
         private void OnDayStarted(object sender, DayStartedEventArgs e) // Funcion que restaura el buff en caso de irse a dormir con un buff activo
         {
@@ -86,6 +93,30 @@ namespace bGamesPointsMod
 
             // Renderizar el menú si está visible
             menu.RenderMenu(spriteBatch);
+        }
+
+        // Método de login que se llama al presionar una tecla específica
+        private async void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
+        {
+            if (e.Button == SButton.F5) // Por ejemplo, F5 para activar el login
+            {
+                // Simulación de credenciales (podrías pedirlas de otro modo)
+                string email = "test@test.cl";
+                string password = "asd123";
+
+                int loginResult = await userController.UserCheck(email, password);
+
+                if (loginResult == 1)
+                {
+                    Monitor.Log("Login exitoso.", LogLevel.Info);
+                    var user = userController.GetUser();
+                    Monitor.Log($"Bienvenido, {user.Name}!", LogLevel.Info);
+                }
+                else
+                {
+                    Monitor.Log("Login fallido. Usuario no encontrado o error en la API.", LogLevel.Warn);
+                }
+            }
         }
     }
 }
