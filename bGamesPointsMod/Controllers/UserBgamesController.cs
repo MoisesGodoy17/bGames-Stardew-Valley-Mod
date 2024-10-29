@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿
+using StardewModdingAPI;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json; // Necesitarás instalar este paquete para trabajar con JSON.
@@ -28,7 +29,6 @@ namespace bGamesPointsMod.Controllers
         {
             // URL de la API externa que se usará para consultar por email
             string apiUrl = $"http://localhost:3010/player_by_email/{email}";
-
             try
             {
                 // Realiza la llamada a la API para verificar si el usuario existe
@@ -44,6 +44,7 @@ namespace bGamesPointsMod.Controllers
 
                     // Guarda el usuario en el objeto
                     SaveUserBgames();
+                    Monitor.Log($"Consultando la API para verificar el usuario. {userBgamesModel.Email}", LogLevel.Info);
                     return 1; // Usuario encontrado y creado
                 }
                 else

@@ -8,6 +8,7 @@ using StardewValley.Tools;
 using bGamesPointsMod.Models;
 using bGamesPointsMod.Controllers;
 using Microsoft.Xna.Framework.Graphics;
+using bGamesPointsMod.Views;
 
 namespace bGamesPointsMod
 {
@@ -21,16 +22,14 @@ namespace bGamesPointsMod
 
         // Controlador de Buffs
         public BuffController buffController;
-
         private UserBgamesController userController;
 
         // Boton de menu de mod
         private Texture2D bTMenuMod;
         private Rectangle bBMenuMod;
+        private Menu menu;// Instancia de la clase Menu
 
-        private Menu menu;  // Instancia de la clase Menu
-
-        public override void Entry(IModHelper helper) // Función principal
+        public override void Entry(IModHelper helper)
         {
             // Inicializar Buffs
             miningBuff = new BuffModel("Velocidad de minado", 0.5f, 0, -1);
@@ -41,7 +40,9 @@ namespace bGamesPointsMod
             bTMenuMod = helper.ModContent.Load<Texture2D>("assets/menu.png");
             bBMenuMod = new Rectangle(10, 10, 20, 20);
 
+
             // Crear instancia de BuffController
+            userBgamesModel = new UserBgamesModel("", "", "", null);
             buffController = new BuffController(this.Monitor, this.Helper, miningBuff, foraningBuff, speedBuff);
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel);
 
@@ -52,18 +53,17 @@ namespace bGamesPointsMod
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
             helper.Events.Display.RenderedHud += OnRenderedHud;
-
-            //Evento login
             helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
         }
-        private void OnDayStarted(object sender, DayStartedEventArgs e) // Funcion que restaura el buff en caso de irse a dormir con un buff activo
+
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             // Verifica si el jugador tiene un pico equipado
             if (Game1.player.CurrentTool is Pickaxe pickaxe)
             {
                 // Restauramos la velocidad de animación del pico a su valor por defecto (1.0)
                 pickaxe.AnimationSpeedModifier = 1.0f;
-                this.Monitor.Log("Nuevo día: Se restauró la velocidad de animación del pico a 0.0.", LogLevel.Info);
+                this.Monitor.Log("Nuevo día: Se restauró la velocidad de animación del pico a 1.0.", LogLevel.Info);
             }
         }
 
@@ -71,16 +71,14 @@ namespace bGamesPointsMod
         {
             if (!Context.IsWorldReady) return;
 
-            this.Monitor.Log($"{Game1.player.Name} pressed {e.Button}.", LogLevel.Debug);
-
             if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
-                menu.ToggleMenu(); // Mostrar/Ocultar 
+                menu.ToggleMenu();
             }
             else
             {
-                menu.HandleButtonClick(e, buffController); // Manejar clic en los botones del menú
+                menu.HandleButtonClick(e, buffController);
             }
         }
 
@@ -88,34 +86,16 @@ namespace bGamesPointsMod
         {
             var spriteBatch = e.SpriteBatch;
 
-            // Dibujar el botón del menú
             spriteBatch.Draw(bTMenuMod, bBMenuMod, Color.White);
-
-            // Renderizar el menú si está visible
             menu.RenderMenu(spriteBatch);
         }
 
-        // Método de login que se llama al presionar una tecla específica
-        private async void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
+        private void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
         {
-            if (e.Button == SButton.F5) // Por ejemplo, F5 para activar el login
+            if (e.Button == SButton.F5)
             {
-                // Simulación de credenciales (podrías pedirlas de otro modo)
-                string email = "test@test.cl";
-                string password = "asd123";
-
-                int loginResult = await userController.UserCheck(email, password);
-
-                if (loginResult == 1)
-                {
-                    Monitor.Log("Login exitoso.", LogLevel.Info);
-                    var user = userController.GetUser();
-                    Monitor.Log($"Bienvenido, {user.Name}!", LogLevel.Info);
-                }
-                else
-                {
-                    Monitor.Log("Login fallido. Usuario no encontrado o error en la API.", LogLevel.Warn);
-                }
+                // Solo muestra LoginView en pantalla cuando se presiona F5
+                Game1.activeClickableMenu = new LoginView(userController, this.Monitor);
             }
         }
     }
