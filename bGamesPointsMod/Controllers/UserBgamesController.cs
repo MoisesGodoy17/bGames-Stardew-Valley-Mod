@@ -33,19 +33,17 @@ namespace bGamesPointsMod.Controllers
             {
                 // Realiza la llamada a la API para verificar si el usuario existe
                 HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                userBgamesModel = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
 
-                if (response.IsSuccessStatusCode)
+                
+                if (response.IsSuccessStatusCode && (userBgamesModel.Password == password))
                 {
+                    Monitor.Log($"Usuario {password} guardado correctamente.", LogLevel.Info);
+                    Monitor.Log($"Usuario {userBgamesModel.Password} guardado correctamente.", LogLevel.Info);
                     // Si la respuesta es exitosa, obtenemos el JSON y lo convertimos en el modelo
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    userBgamesModel = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
-
                     Monitor.Log("Usuario encontrado en la API.", LogLevel.Info);
-
-                    // Guarda el usuario en el objeto
-                    SaveUserBgames();
-                    Monitor.Log($"Consultando la API para verificar el usuario. {userBgamesModel.Email}", LogLevel.Info);
-                    return 1; // Usuario encontrado y creado
+                    return 1; // Usuario encontrado
                 }
                 else
                 {
@@ -60,10 +58,14 @@ namespace bGamesPointsMod.Controllers
             }
         }
 
-        public void SaveUserBgames()
+        public async void SaveUserBgames(string email, string password)
         {
-            if (userBgamesModel != null)
+            string apiUrl = $"http://localhost:3010/player_by_email/{email}";
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            if (response != null)
             {
+                userBgamesModel = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
                 Monitor.Log($"Usuario {userBgamesModel.Name} guardado correctamente.", LogLevel.Info);
             }
             else

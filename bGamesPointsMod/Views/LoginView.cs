@@ -12,7 +12,7 @@ namespace bGamesPointsMod.Views
         private readonly UserBgamesController userController;
         private readonly IMonitor Monitor;
 
-        private TextBox userNameTextBox;
+        private TextBox emailTextBox;
         private TextBox passwordTextBox;
         private ClickableComponent loginButton;
         private string message = "";
@@ -24,13 +24,13 @@ namespace bGamesPointsMod.Views
             this.Monitor = monitor;
 
             // Configuración de campos de texto
-            userNameTextBox = new TextBox(Game1.content.Load<Texture2D>("LooseSprites\\textBox"), Game1.mouseCursors, Game1.smallFont, Game1.textColor)
+            emailTextBox = new TextBox(Game1.content.Load<Texture2D>("LooseSprites\\textBox"), Game1.mouseCursors, Game1.smallFont, Game1.textColor)
             {
                 X = this.width / 2 - 100,
                 Y = this.height / 2 - 50,
                 Width = 200
             };
-            userNameTextBox.Text = "User name";
+            emailTextBox.Text = "Email";
             Game1.mouseCursor = 0;
 
             passwordTextBox = new TextBox(Game1.content.Load<Texture2D>("LooseSprites\\textBox"), Game1.mouseCursors, Game1.smallFont, Game1.textColor)
@@ -53,7 +53,7 @@ namespace bGamesPointsMod.Views
             Game1.mouseCursor = 0;
             // Dibuja el fondo y los componentes
             Game1.drawDialogueBox(this.width / 2 - 150, this.height / 2 - 100, 300, 200, false, true);
-            userNameTextBox.Draw(b);
+            emailTextBox.Draw(b);
             passwordTextBox.Draw(b);
             Game1.mouseCursor = 0;
 
@@ -76,17 +76,17 @@ namespace bGamesPointsMod.Views
             base.receiveLeftClick(x, y, playSound);
 
             // Seleccionar el TextBox adecuado en función del clic
-            if (new Rectangle(userNameTextBox.X, userNameTextBox.Y, userNameTextBox.Width, userNameTextBox.Height).Contains(x, y))
+            if (new Rectangle(emailTextBox.X, emailTextBox.Y, emailTextBox.Width, emailTextBox.Height).Contains(x, y))
             {
-                Game1.keyboardDispatcher.Subscriber = userNameTextBox;
-                userNameTextBox.Selected = true;
+                Game1.keyboardDispatcher.Subscriber = emailTextBox;
+                emailTextBox.Selected = true;
                 passwordTextBox.Selected = false;
             }
             else if (new Rectangle(passwordTextBox.X, passwordTextBox.Y, passwordTextBox.Width, passwordTextBox.Height).Contains(x, y))
             {
                 Game1.keyboardDispatcher.Subscriber = passwordTextBox;
                 passwordTextBox.Selected = true;
-                userNameTextBox.Selected = false;
+                emailTextBox.Selected = false;
             }
 
             // Verificar si se ha hecho clic en el botón de login
@@ -98,13 +98,13 @@ namespace bGamesPointsMod.Views
 
         private async void PerformLogin()
         {
-            string userName = userNameTextBox.Text;
+            string email = emailTextBox.Text;
             string password = passwordTextBox.Text;
-
-            int loginResult = await userController.UserCheck(userName, password);
+            int loginResult = await userController.UserCheck(email, password);
 
             if (loginResult == 1)
             {
+                userController.SaveUserBgames(email, password);
                 message = "Login exitoso! Bienvenido.";
             }
             else
