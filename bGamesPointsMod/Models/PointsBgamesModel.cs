@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace bGamesPointsMod.Models
 {
-    internal class PointsBgamesModel
+    public class PointsBgamesModel
     {
+        public string Id_attributes { get; set; }
+        public string Name { get; set; }
+
+        public string Data { get; set; }
+
+        public PointsBgamesModel(string id_attributes, string name, string data)
+        {
+            Id_attributes = id_attributes;
+            Name = name;
+            Data = data;
+        }
     }
 }

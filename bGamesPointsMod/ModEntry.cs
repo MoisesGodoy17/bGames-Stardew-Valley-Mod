@@ -19,6 +19,7 @@ namespace bGamesPointsMod
         private BuffModel foraningBuff;
         private BuffModel speedBuff;
         private UserBgamesModel userBgamesModel;
+        private PointsBgamesModel pointsBgamesModel;
 
         // Controlador de Buffs
         public BuffController buffController;
@@ -42,9 +43,11 @@ namespace bGamesPointsMod
 
 
             // Crear instancia de BuffController
-            userBgamesModel = new UserBgamesModel("", "", "", null);
+            pointsBgamesModel = new PointsBgamesModel("", "", "");
+            userBgamesModel = new UserBgamesModel("","","","","", null);
+
             buffController = new BuffController(this.Monitor, this.Helper, miningBuff, foraningBuff, speedBuff);
-            userController = new UserBgamesController(this.Monitor, helper, userBgamesModel);
+            userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de Menu
             menu = new Menu(helper, buffController);

@@ -1,3 +1,4 @@
+using bGamesPointsMod.Models;
 namespace bGamesPointsMod.Models
 {
     public class UserBgamesModel
@@ -7,16 +8,24 @@ namespace bGamesPointsMod.Models
         public string Email { get; set; }             // Email del usuario
 
         public string Password { get; set; }          // Contraseña del usuario
+        
+        public string Id_players { get; set; }
 
-        public List<Array> Points { get; set; }    // Lista de puntos del usuario
+        public string Age { get; set; }
+
+        public List<PointsBgamesModel> Points { get; set; } // Lista de puntos
+
 
         // Constructor para inicializar el buff
-        public UserBgamesModel(string name, string email, string password, List<Array> points)
+        public UserBgamesModel(string name, string email, string password, string id_players
+            ,string age, List<PointsBgamesModel> points)
         {
             Name = name;
             Email = email;
             Password = password;
-            Points = points;
+            Id_players = id_players;
+            Age = age;
+            Points = points ?? new List<PointsBgamesModel>();
         }
     }
 }

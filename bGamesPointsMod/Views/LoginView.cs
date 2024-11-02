@@ -11,7 +11,6 @@ namespace bGamesPointsMod.Views
     {
         private readonly UserBgamesController userController;
         private readonly IMonitor Monitor;
-
         private TextBox emailTextBox;
         private TextBox passwordTextBox;
         private ClickableComponent loginButton;
@@ -50,13 +49,12 @@ namespace bGamesPointsMod.Views
 
         public override void draw(SpriteBatch b)
         {
-            Game1.mouseCursor = 0;
             // Dibuja el fondo y los componentes
+            Game1.mouseCursor = 0;
             Game1.drawDialogueBox(this.width / 2 - 150, this.height / 2 - 100, 300, 200, false, true);
             emailTextBox.Draw(b);
             passwordTextBox.Draw(b);
             Game1.mouseCursor = 0;
-
 
             // Dibuja el botón de login
             Utility.drawTextWithShadow(b, loginButton.name, Game1.dialogueFont, new Vector2(loginButton.bounds.X, loginButton.bounds.Y), Color.White);
@@ -74,7 +72,6 @@ namespace bGamesPointsMod.Views
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             base.receiveLeftClick(x, y, playSound);
-
             // Seleccionar el TextBox adecuado en función del clic
             if (new Rectangle(emailTextBox.X, emailTextBox.Y, emailTextBox.Width, emailTextBox.Height).Contains(x, y))
             {
@@ -88,7 +85,6 @@ namespace bGamesPointsMod.Views
                 passwordTextBox.Selected = true;
                 emailTextBox.Selected = false;
             }
-
             // Verificar si se ha hecho clic en el botón de login
             if (loginButton.bounds.Contains(x, y))
             {
@@ -105,6 +101,7 @@ namespace bGamesPointsMod.Views
             if (loginResult == 1)
             {
                 userController.SaveUserBgames(email, password);
+                userController.SaveUserPoints();
                 message = "Login exitoso! Bienvenido.";
             }
             else
