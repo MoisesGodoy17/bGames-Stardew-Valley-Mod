@@ -9,42 +9,38 @@ namespace bGamesPointsMod.Controllers
 {
     public class UserBgamesController
     {
-        private UserBgamesModel userBgamesModel;
-        private PointsBgamesModel pointsBgamesModel;
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
         private readonly HttpClient httpClient; // Cliente HTTP para hacer las peticiones a la API externa
 
+        public UserBgamesModel UserBgamesModel { get; private set; }
+        public PointsBgamesModel PointsBgamesModel { get; private set; }
+
         public UserBgamesController(
             IMonitor monitor,
-            IModHelper helper,  //Helper
+            IModHelper helper,
             UserBgamesModel userBgamesModel,
             PointsBgamesModel pointsBgamesModel)
         {
             this.Monitor = monitor;
             this.Helper = helper;
-            this.userBgamesModel = userBgamesModel;
-            this.pointsBgamesModel = pointsBgamesModel;
+            this.UserBgamesModel = userBgamesModel; // Usa la instancia original pasada
+            this.PointsBgamesModel = pointsBgamesModel;
             this.httpClient = new HttpClient(); // Inicializa el cliente HTTP
         }
 
         public async Task<int> UserCheck(string email, string password)
         {
-            // URL de la API externa que se usará para consultar por email
             string apiUrl = $"http://localhost:3010/player_by_email/{email}";
             try
             {
-                // Realiza la llamada a la API para verificar si el usuario existe
                 HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                userBgamesModel = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
+                var userFromApi = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
 
-                if (response.IsSuccessStatusCode && (userBgamesModel.Password == password))
+                if (response.IsSuccessStatusCode && (userFromApi.Password == password))
                 {
-                    Monitor.Log($"Usuario {password} guardado correctamente.", LogLevel.Info);
-                    Monitor.Log($"Usuario {userBgamesModel.Password} guardado correctamente.", LogLevel.Info);
-                    // Si la respuesta es exitosa, obtenemos el JSON y lo convertimos en el modelo
-                    Monitor.Log("Usuario encontrado en la API.", LogLevel.Info);
+                    Monitor.Log($"Usuario {userFromApi.Name} encontrado en la API.", LogLevel.Info);
                     return 1; // Usuario encontrado
                 }
                 else
@@ -60,50 +56,67 @@ namespace bGamesPointsMod.Controllers
             }
         }
 
-        public async void SaveUserBgames(string email, string password)
+        public async void SaveUserBgames(string email)
         {
             string apiUrl = $"http://localhost:3010/player_by_email/{email}";
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-            if (response != null)
+            try
             {
-                userBgamesModel = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
-                Monitor.Log($"Usuario {userBgamesModel.Name} guardado correctamente.", LogLevel.Info);
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                UserBgamesModel userFromApi = JsonConvert.DeserializeObject<UserBgamesModel>(jsonResponse);
+
+                if (response.IsSuccessStatusCode && userFromApi != null)
+                {
+                    // Actualiza la instancia original
+                    UserBgamesModel.Name = userFromApi.Name;
+                    UserBgamesModel.Email = userFromApi.Email;
+                    UserBgamesModel.Password = userFromApi.Password;
+                    UserBgamesModel.Id_players = userFromApi.Id_players;
+                    UserBgamesModel.Age = userFromApi.Age;
+                    Monitor.Log($"Usuario {userFromApi.Name} guardado correctamente.", LogLevel.Info);
+
+                    // Guarda los puntos del jugador en el objeto UserBgamesModel
+                    SaveUserPoints(int.Parse(userFromApi.Id_players));
+                }
+                else
+                {
+                    Monitor.Log("No se pudo guardar el usuario porque no hay datos disponibles.", LogLevel.Warn);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Monitor.Log("No se pudo guardar el usuario porque no hay datos disponibles.", LogLevel.Warn);
+                Monitor.Log($"Error al guardar el usuario: {ex.Message}", LogLevel.Error);
             }
         }
 
-        public async void SaveUserPoints()
+        public async void SaveUserPoints(int idPlayer)
         {
-            string apiUrl = $"http://localhost:3001/player_all_attributes/{userBgamesModel.Id_players}";
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-            if (response != null)
+            string apiUrl = $"http://localhost:3001/player_all_attributes/{idPlayer}";
+            try
             {
-                List<PointsBgamesModel> pointsBgames = JsonConvert.DeserializeObject<List<PointsBgamesModel>>(jsonResponse);
-                Monitor.Log($"Puntos del usuario guardados correctamente.", LogLevel.Info);
-                userBgamesModel.Points = pointsBgames;
-                if (userBgamesModel.Points == null)
+                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                
+                if (response.IsSuccessStatusCode && response != null)
+                {
+                    List<PointsBgamesModel> pointsFromApi = JsonConvert.DeserializeObject<List<PointsBgamesModel>>(jsonResponse);
+                    UserBgamesModel.Points = pointsFromApi; // Actualiza la lista de puntos en la instancia original
+                    Monitor.Log("Puntos del usuario guardados correctamente.", LogLevel.Info);
+                }
+                else
                 {
                     Monitor.Log("No se pudo guardar el puntaje del usuario porque no hay datos disponibles.", LogLevel.Warn);
                 }
-                foreach (var points in userBgamesModel.Points)
-                {
-                    Console.WriteLine($"  - {points.Name}: {points.Data}");
-                }
             }
-            else
+            catch (Exception ex)
             {
-                Monitor.Log("No se pudo guardar el puntaje del usuario porque no hay datos disponibles.", LogLevel.Warn);
+                Monitor.Log($"Error al guardar los puntos: {ex.Message}", LogLevel.Error);
             }
         }
 
         public UserBgamesModel GetUser()
         {
-            return userBgamesModel;
+            return UserBgamesModel;
         }
     }
 }

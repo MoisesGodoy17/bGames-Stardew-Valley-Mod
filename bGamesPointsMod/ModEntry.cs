@@ -18,12 +18,12 @@ namespace bGamesPointsMod
         private BuffModel miningBuff;
         private BuffModel foraningBuff;
         private BuffModel speedBuff;
-        private UserBgamesModel userBgamesModel;
-        private PointsBgamesModel pointsBgamesModel;
+        public UserBgamesModel userBgamesModel;
+        public PointsBgamesModel pointsBgamesModel;
 
         // Controlador de Buffs
         public BuffController buffController;
-        private UserBgamesController userController;
+        public UserBgamesController userController;
 
         // Boton de menu de mod
         private Texture2D bTMenuMod;
@@ -50,7 +50,7 @@ namespace bGamesPointsMod
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de Menu
-            menu = new Menu(helper, buffController);
+            menu = new Menu(helper, buffController, Monitor, userBgamesModel);
 
             // Mostrar boton en pantalla
             helper.Events.GameLoop.DayStarted += OnDayStarted;
@@ -77,6 +77,7 @@ namespace bGamesPointsMod
             if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
+                this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
                 menu.ToggleMenu();
             }
             else

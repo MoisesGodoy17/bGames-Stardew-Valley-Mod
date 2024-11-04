@@ -4,52 +4,84 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Menus;
 using StardewValley.Tools;
+using bGamesPointsMod.Models;
 
 namespace bGamesPointsMod.Controllers
 {
-    public class Menu
+    public class Menu : IClickableMenu
     {
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
-        private Texture2D bTMiningBuff;
-        private Rectangle bBMiningBuff;
-        private Texture2D bTForaningBuff;
-        private Rectangle bBForaningBuff;
-        private Texture2D bTSpeedBuff;
-        private Rectangle bBSpeedBuff;
-        public Texture2D bTMenuMod;
-        public Rectangle bBMenuMod;
-
         // Menu backgound
         public Texture2D menuBg;
         public Rectangle positionMenuBg;
-
         // Controlador de Buffs
         public BuffController buffController;
+        // Botones inferiores
+        private ClickableComponent buttonBuff;
+        private ClickableComponent buttonLevelUp;
 
-        private bool isMenuVisible = false; // Control para mostrar/ocultar el menú
+        // Usuario
+        public UserBgamesModel userBgamesModel;
 
-        public Menu(IModHelper helper, BuffController buffController)
+        // Control para mostrar/ocultar el menú
+        private bool isMenuVisible = false; 
+
+        public Menu(
+            IModHelper helper, 
+            BuffController buffController, 
+            IMonitor monitor, 
+            UserBgamesModel userBgamesModel)
         {
             // Inicializar Buffs y Helper
-            this.Helper = helper ?? throw new ArgumentNullException(nameof(helper)); // Validar que Helper no sea null
-            this.buffController = buffController ?? throw new ArgumentNullException(nameof(buffController)); // Validar que buffController no sea null
+            this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
+            this.buffController = buffController ?? throw new ArgumentNullException(nameof(buffController));
+            this.Monitor = monitor;
+            this.userBgamesModel = userBgamesModel;
 
-            // Menu backgound
+
+            // Cargar el fondo del menú
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
-            positionMenuBg = new Rectangle(100, 100, 300, 180); // posición y tamaño del menú
 
-            // Inicializar botones
-            // Ajustar las posiciones de los botones en relación al recuadro del menú
-            bBMiningBuff = new Rectangle(positionMenuBg.X + 50, positionMenuBg.Y + 20, 20, 20);
-            bTMiningBuff = helper.ModContent.Load<Texture2D>("assets/pickaxe.png");
+            // Configuración de tamaño y posición del menú
+            int menuWidth = 640; // Ancho del fondo del menú
+            int menuHeight = 480; // Alto del fondo del menú
 
-            bBForaningBuff = new Rectangle(positionMenuBg.X + 50, positionMenuBg.Y + 60, 20, 20);
-            bTForaningBuff = helper.ModContent.Load<Texture2D>("assets/axe.png");
+            // Centrando el menú en la pantalla
+            positionMenuBg = new Rectangle(
+                (Game1.viewport.Width - menuWidth) / 2, // X centrado
+                (Game1.viewport.Height - menuHeight) / 2, // Y centrado
+                menuWidth,
+                menuHeight
+            );
+            // Inicializar botones y colocarlos uno al lado del otro en la parte inferior del menú
+            int buttonWidth = 100;
+            int buttonHeight = 40;
+            int buttonSpacing = 10; // Espacio entre los botones
 
-            bBSpeedBuff = new Rectangle(positionMenuBg.X + 50, positionMenuBg.Y + 100, 20, 20);
-            bTSpeedBuff = helper.ModContent.Load<Texture2D>("assets/run.png");
+            // Coordenadas para los botones en la parte inferior
+            int buttonY = positionMenuBg.Y + menuHeight - buttonHeight - buttonSpacing;
+
+            buttonBuff = new ClickableComponent(
+                new Rectangle(
+                    positionMenuBg.X + (menuWidth - 2 * buttonWidth - buttonSpacing) / 2, // X para el primer botón
+                    buttonY,
+                    buttonWidth,
+                    buttonHeight
+                ), "Buff"
+            );
+            buttonLevelUp = new ClickableComponent(
+                new Rectangle(
+                    buttonBuff.bounds.X + buttonWidth + buttonSpacing, // X para el segundo botón a la derecha del primero
+                    buttonY,
+                    buttonWidth,
+                    buttonHeight
+                ), "Level Up"
+            );
+            Game1.mouseCursor = 0;
+            this.userBgamesModel = userBgamesModel;
         }
 
         public void ToggleMenu()
@@ -64,30 +96,49 @@ namespace bGamesPointsMod.Controllers
                 // Dibujar fondo del menú solo si está visible
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
 
-                // Dibujar botones del menú solo si está visible
-                spriteBatch.Draw(bTMiningBuff, bBMiningBuff, Color.White);
-                spriteBatch.Draw(bTForaningBuff, bBForaningBuff, Color.White);
-                spriteBatch.Draw(bTSpeedBuff, bBSpeedBuff, Color.White);
+                // Dibujar botones inferiores
+                Utility.drawTextWithShadow(spriteBatch, buttonBuff.name, Game1.dialogueFont, new Vector2(buttonBuff.bounds.X, buttonBuff.bounds.Y), Color.White);
+                Utility.drawTextWithShadow(spriteBatch, buttonLevelUp.name, Game1.dialogueFont, new Vector2(buttonLevelUp.bounds.X, buttonLevelUp.bounds.Y), Color.White);
+            }
+            if (userBgamesModel != null) // Si el usuario no es nulo, muestra la información del usuario
+            {
+                string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
+
+                // Coordenadas para dibujar el texto en la parte superior del menú
+                float textX = positionMenuBg.X + 20; // Margen desde la izquierda
+                float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
+
+                spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(textX, textY), Color.Black);
+            }
+
+            if (userBgamesModel.Points != null)
+            {
+                string userPointsInfo = "";
+                foreach (var points in userBgamesModel.Points)
+                {
+                    userPointsInfo += $"{points.Name}: {points.Data}\n";
+                }
+                // Coordenadas para dibujar el texto en la parte superior del menú
+                float textX = positionMenuBg.X + 400; // Margen desde la izquierda
+                float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
+
+                spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
             }
         }
 
         public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController)
         {
-            if (e.Button == SButton.MouseLeft && bBMiningBuff.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                this.Helper.Events.Input.ButtonPressed += buffController.OnButtonPressedMiningSpeed;
-                this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedMiningSpeed;
-                    
+                this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
+                foreach (var points in userBgamesModel.Points)
+                {
+                    Console.WriteLine($"  - {points.Name}: {points.Data}");
+                }
             }
-            if (e.Button == SButton.MouseLeft && bBForaningBuff.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                this.Helper.Events.Input.ButtonPressed += buffController.OnButtonPressedForagingSpeed;
-                this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedForagingSpeed;
-            }
-            if (e.Button == SButton.MouseLeft && bBSpeedBuff.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Helper.Events.Input.ButtonPressed += buffController.OnButtonPressedSpeed;
-                this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedSpeed;
+                this.Monitor.Log("Botón de level up clickeado.", LogLevel.Info);
             }
         }
     }

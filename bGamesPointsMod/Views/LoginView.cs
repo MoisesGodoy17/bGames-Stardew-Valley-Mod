@@ -100,8 +100,7 @@ namespace bGamesPointsMod.Views
 
             if (loginResult == 1)
             {
-                userController.SaveUserBgames(email, password);
-                userController.SaveUserPoints();
+                userController.SaveUserBgames(email);
                 message = "Login exitoso! Bienvenido.";
             }
             else
