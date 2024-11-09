@@ -10,26 +10,32 @@ using bGamesPointsMod.Models;
 
 namespace bGamesPointsMod.Controllers
 {
-    public class Menu : IClickableMenu
+    public class MenuMod : IClickableMenu
     {
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
+
         // Menu backgound
         public Texture2D menuBg;
         public Rectangle positionMenuBg;
+
         // Controlador de Buffs
         public BuffController buffController;
-        // Botones inferiores
-        private ClickableComponent buttonBuff;
-        private ClickableComponent buttonLevelUp;
 
         // Usuario
         public UserBgamesModel userBgamesModel;
 
-        // Control para mostrar/ocultar el menú
-        private bool isMenuVisible = false; 
+        // Botones inferiores
+        private ClickableComponent buttonBuff;
+        private ClickableComponent buttonLevelUp;
 
-        public Menu(
+        // Control para mostrar/ocultar el menú
+        private bool isMenuVisible = false;
+
+        // Menu de buff y skill
+        MenuBuffAndSkill menuBuffAndSkill;
+
+        public MenuMod(
             IModHelper helper, 
             BuffController buffController, 
             IMonitor monitor, 
@@ -82,6 +88,9 @@ namespace bGamesPointsMod.Controllers
             );
             Game1.mouseCursor = 0;
             this.userBgamesModel = userBgamesModel;
+
+            // Instancia del menu de buff
+            menuBuffAndSkill = new MenuBuffAndSkill(helper, buffController, Monitor, userBgamesModel);
         }
 
         public void ToggleMenu()
@@ -124,22 +133,33 @@ namespace bGamesPointsMod.Controllers
 
                 spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
             }
+            if (menuBuffAndSkill != null)
+            {
+                menuBuffAndSkill.RenderMenu(spriteBatch);
+            }
         }
 
-        public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController)
+        public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController)
         {
             if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
-                foreach (var points in userBgamesModel.Points)
-                {
-                    Console.WriteLine($"  - {points.Name}: {points.Data}");
-                }
+                menuBuffAndSkill.ToggleMenu();
+
             }
             if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 this.Monitor.Log("Botón de level up clickeado.", LogLevel.Info);
             }
+            else
+            {
+                menuBuffAndSkill.HandleButtonClick(e, buffController);
+            }
+        }
+
+        public void RenderMenuBuff(SpriteBatch spriteBatch)
+        {
+            menuBuffAndSkill.RenderMenu(spriteBatch);
         }
     }
 }

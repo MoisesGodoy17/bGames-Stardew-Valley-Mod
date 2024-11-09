@@ -28,7 +28,7 @@ namespace bGamesPointsMod
         // Boton de menu de mod
         private Texture2D bTMenuMod;
         private Rectangle bBMenuMod;
-        private Menu menu;// Instancia de la clase Menu
+        private MenuMod menu;// Instancia de la clase Menu
 
         public override void Entry(IModHelper helper)
         {
@@ -50,7 +50,7 @@ namespace bGamesPointsMod
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de Menu
-            menu = new Menu(helper, buffController, Monitor, userBgamesModel);
+            menu = new MenuMod(helper, buffController, Monitor, userBgamesModel);
 
             // Mostrar boton en pantalla
             helper.Events.GameLoop.DayStarted += OnDayStarted;
@@ -77,12 +77,11 @@ namespace bGamesPointsMod
             if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
-                this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
                 menu.ToggleMenu();
             }
             else
             {
-                menu.HandleButtonClick(e, buffController);
+                menu.OnOpenMenuBuff(e, buffController);
             }
         }
 
