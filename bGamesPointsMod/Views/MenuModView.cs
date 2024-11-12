@@ -25,6 +25,9 @@ namespace bGamesPointsMod.Controllers
         // Usuario
         public UserBgamesModel userBgamesModel;
 
+        // Controller del usaurio
+        public UserBgamesController userBgamesController;
+
         // Botones inferiores
         private ClickableComponent buttonBuff;
         private ClickableComponent buttonLevelUp;
@@ -39,13 +42,15 @@ namespace bGamesPointsMod.Controllers
             IModHelper helper, 
             BuffController buffController, 
             IMonitor monitor, 
-            UserBgamesModel userBgamesModel)
+            UserBgamesModel userBgamesModel,
+            UserBgamesController userBgamesController)
         {
             // Inicializar Buffs y Helper
             this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
             this.buffController = buffController ?? throw new ArgumentNullException(nameof(buffController));
             this.Monitor = monitor;
             this.userBgamesModel = userBgamesModel;
+            this.userBgamesController = userBgamesController;
 
 
             // Cargar el fondo del menú
@@ -90,7 +95,11 @@ namespace bGamesPointsMod.Controllers
             this.userBgamesModel = userBgamesModel;
 
             // Instancia del menu de buff
-            menuBuffAndSkill = new MenuBuffAndSkill(helper, buffController, Monitor, userBgamesModel);
+            menuBuffAndSkill = new MenuBuffAndSkill(helper, 
+                buffController, 
+                Monitor, 
+                userBgamesModel,
+                userBgamesController);
         }
 
         public void ToggleMenu()

@@ -1,4 +1,5 @@
 ﻿using bGamesPointsMod.Models;
+using Force.DeepCloner;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -13,21 +14,25 @@ public class BuffController
     private BuffModel miningBuff;
     private BuffModel foraningBuff;
     private BuffModel speedBuff;
+    private BuffModel buffMininglevelup;
     public int flagBuff = 0;
     public int originalSpeed;
+    public int originalSpeedMining;
 
     public BuffController(
              IMonitor monitor,
              IModHelper helper,  //Helper
              BuffModel miningBuff,
              BuffModel foraningBuff,
-             BuffModel speedBuff)
+             BuffModel speedBuff,
+             BuffModel buffMininglevelup)
     {
         this.Monitor = monitor;
         this.Helper = helper;  //helper
         this.miningBuff = miningBuff;
         this.foraningBuff = foraningBuff;
         this.speedBuff = speedBuff;
+        this.buffMininglevelup = buffMininglevelup;
     }
 
     public void OnButtonPressedMiningSpeed(object sender, ButtonPressedEventArgs e)
@@ -137,6 +142,7 @@ public class BuffController
             Monitor.Log("Habilidad desactivada. La velocidad a vuelto a la normalidad.", LogLevel.Info);
         }
     }
+
     public void SleepBuff() // funcion que desvincula los buff que se han clickado mientras un buff esta activo
     {
         this.Helper.Events.Input.ButtonPressed -= OnButtonPressedMiningSpeed;

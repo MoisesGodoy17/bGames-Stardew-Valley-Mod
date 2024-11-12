@@ -8,6 +8,7 @@ using StardewValley.Menus;
 using StardewValley.Tools;
 using bGamesPointsMod.Models;
 using bGamesPointsMod.Views;
+using Microsoft.Xna.Framework.Content;
 
 namespace bGamesPointsMod.Controllers
 {
@@ -26,6 +27,9 @@ namespace bGamesPointsMod.Controllers
         // Usuario
         public UserBgamesModel userBgamesModel;
 
+        // Controller del usaurio
+        public UserBgamesController userBgamesController;
+
         // Botones inferiores
         private ClickableComponent speedBuff;
         private ClickableComponent staminBuff;
@@ -39,12 +43,14 @@ namespace bGamesPointsMod.Controllers
     IModHelper helper,
     BuffController buffController,
     IMonitor monitor,
-    UserBgamesModel userBgamesModel)
+    UserBgamesModel userBgamesModel,
+    UserBgamesController userBgamesController)
         {
             this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
             this.Monitor = monitor;
             this.userBgamesModel = userBgamesModel;
             this.buffController = buffController;
+            this.userBgamesController = userBgamesController;
 
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
 
@@ -107,11 +113,19 @@ namespace bGamesPointsMod.Controllers
 
         public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController)
         {
+            
             if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
-                this.Helper.Events.Input.ButtonPressed += buffController.OnButtonPressedSpeed;
-                this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedSpeed;
+                if (userBgamesController.SpendPoints(10,0) == 1)
+                {
+                    this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
+                    this.Helper.Events.Input.ButtonPressed += buffController.OnButtonPressedSpeed;
+                    this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedSpeed;
+                }
+                else
+                {
+                    this.Monitor.Log("No tienes los puntos necesarios para activar este buff.", LogLevel.Info);
+                }
             }
             if (e.Button == SButton.MouseLeft && staminBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {

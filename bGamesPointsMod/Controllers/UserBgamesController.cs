@@ -118,6 +118,27 @@ namespace bGamesPointsMod.Controllers
         {
             return UserBgamesModel;
         }
+
+        public int SpendPoints(int spendPoints, int id_attribute)
+        {
+            if (UserBgamesModel.Points != null)
+            {
+                foreach (var points in UserBgamesModel.Points)
+                {
+                    if (id_attribute == Int32.Parse(points.Id_attributes) 
+                        && spendPoints <= Int32.Parse(points.Data))
+                    {
+                        points.Data = (Int32.Parse(points.Data) - spendPoints).ToString();
+                        return 1;
+                    }
+                    if (spendPoints >= Int32.Parse(points.Data))
+                    {
+                        return 0;
+                    }
+                }
+            }
+            return 0;
+        }
     }
 }
 

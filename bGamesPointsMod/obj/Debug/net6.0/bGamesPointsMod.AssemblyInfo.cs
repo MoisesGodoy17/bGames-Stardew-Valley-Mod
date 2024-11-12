@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bGamesPointsMod")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a5000dee3535cad5bcb615ce4f35fdf1d700787")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cfc198c2d10c25ea5a064e37ad33c8cb6c9e0ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("bGamesPointsMod")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bGamesPointsMod")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

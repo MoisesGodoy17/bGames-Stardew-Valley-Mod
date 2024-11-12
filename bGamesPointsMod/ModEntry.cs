@@ -50,7 +50,7 @@ namespace bGamesPointsMod
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de Menu
-            menu = new MenuMod(helper, buffController, Monitor, userBgamesModel);
+            menu = new MenuMod(helper, buffController, Monitor, userBgamesModel, userController);
 
             // Mostrar boton en pantalla
             helper.Events.GameLoop.DayStarted += OnDayStarted;
