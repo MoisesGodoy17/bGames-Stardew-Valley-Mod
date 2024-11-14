@@ -9,15 +9,13 @@ using bGamesPointsMod.Models;
 using bGamesPointsMod.Controllers;
 using Microsoft.Xna.Framework.Graphics;
 using bGamesPointsMod.Views;
+using StardewValley.Buffs;
 
 namespace bGamesPointsMod
 {
     internal sealed class ModEntry : Mod
     {
         // Modelos de Buffs
-        private BuffModel miningBuff;
-        private BuffModel foraningBuff;
-        private BuffModel speedBuff;
         public UserBgamesModel userBgamesModel;
         public PointsBgamesModel pointsBgamesModel;
 
@@ -33,14 +31,42 @@ namespace bGamesPointsMod
         public override void Entry(IModHelper helper)
         {
             // Inicializar Buffs
-            miningBuff = new BuffModel("Velocidad de minado", 0.5f, 0, -1);
-            foraningBuff = new BuffModel("Velocidad de tala", 0.5f, 0, -1);
-            speedBuff = new BuffModel("Velocidad de caminata", 0.5f, 0, -1);
+            Buff miningBuff = new Buff(id: "Mining speed",
+                displayName: "Speed mining buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    MiningLevel = { 10 }
+                });
+
+            Buff foraningBuff = new Buff(
+                id: "Foraning speed",
+                displayName: "Speed foraning buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    ForagingLevel = { 10 }
+                });
+
+            Buff speedBuff = new Buff(
+                id: "Foraning speed",
+                displayName: "Speed foraning buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    ForagingLevel = { 10 }
+                }
+                );
 
             // Mostrar boton en pantalla del menu
             bTMenuMod = helper.ModContent.Load<Texture2D>("assets/menu.png");
             bBMenuMod = new Rectangle(10, 10, 20, 20);
-
 
             // Crear instancia de BuffController
             pointsBgamesModel = new PointsBgamesModel("", "", "");
@@ -58,7 +84,6 @@ namespace bGamesPointsMod
             helper.Events.Display.RenderedHud += OnRenderedHud;
             helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
         }
-
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             // Verifica si el jugador tiene un pico equipado
@@ -69,7 +94,6 @@ namespace bGamesPointsMod
                 this.Monitor.Log("Nuevo día: Se restauró la velocidad de animación del pico a 1.0.", LogLevel.Info);
             }
         }
-
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
             if (!Context.IsWorldReady) return;
@@ -84,7 +108,6 @@ namespace bGamesPointsMod
                 menu.OnOpenMenuBuff(e, buffController);
             }
         }
-
         private void OnRenderedHud(object sender, RenderedHudEventArgs e)
         {
             var spriteBatch = e.SpriteBatch;
@@ -92,7 +115,6 @@ namespace bGamesPointsMod
             spriteBatch.Draw(bTMenuMod, bBMenuMod, Color.White);
             menu.RenderMenu(spriteBatch);
         }
-
         private void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
         {
             if (e.Button == SButton.F5)
