@@ -77,7 +77,8 @@ namespace bGamesPointsMod.Controllers
                     buttonY,
                     buttonWidth,
                     buttonHeight
-                ), "Speed Buff"
+                ), "Speed Buff\n10 pts"
+                
             );
 
 
@@ -87,16 +88,16 @@ namespace bGamesPointsMod.Controllers
                     buttonY,
                     buttonWidth,
                     buttonHeight
-                ), "Mining Buff"
+                ), "Mining Buff\n10pts"
             );
 
             foranmingBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 50,
-                    buttonY + 50,
+                    buttonY + 70,
                     buttonWidth,
                     buttonHeight
-                ), "Foraning Buff"
+                ), "Foraning Buff\n10 pts"
             );
 
             Game1.mouseCursor = 0;
@@ -127,12 +128,12 @@ namespace bGamesPointsMod.Controllers
             
             if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                if (userBgamesController.SpendPoints(10,0) == 1)
-                {
+                //if (userBgamesController.SpendPoints(10,0) == 1)
+                //{
                     this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
                     buffController.BuffSpeed();
-                }
-                else {this.Monitor.Log("No tienes los puntos necesarios para activar este buff.", LogLevel.Info);}
+                //}
+                //else {this.Monitor.Log("No tienes los puntos necesarios para activar este buff.", LogLevel.Info);}
             }
             if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {

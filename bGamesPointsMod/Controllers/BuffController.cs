@@ -6,6 +6,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
 using StardewValley.Tools;
+using System;
 
 
 namespace bGamesPointsMod.Controllers;
@@ -56,16 +57,46 @@ public class BuffController
 
     public void BuffSpeed()
     {
+        Buff speedBuff = new Buff(
+                id: "Foraning speed",
+                displayName: "Speed foraning buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    Speed = { 5 }
+                }
+                );
         Game1.player.applyBuff(speedBuff);
     }
 
     public void BuffForaning()
     {
+        Buff foraningBuff = new Buff(
+                id: "Foraning speed",
+                displayName: "Speed foraning buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    ForagingLevel = { 10 }
+                });
         Game1.player.applyBuff(foraningBuff);
     }
 
     public void BuffMining()
     {
+        Buff miningBuff = new Buff(id: "Mining speed",
+                displayName: "Speed mining buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {
+                    MiningLevel = { 10 }
+                });
         Game1.player.applyBuff(miningBuff);
     }
 }
