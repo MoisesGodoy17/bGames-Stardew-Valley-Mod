@@ -36,7 +36,7 @@ namespace bGamesPointsMod.Controllers
         private bool isMenuVisible = false;
 
         // Menu de buff y skill
-        MenuBuffAndSkill menuBuffAndSkill;
+        MenuBuffView menuBuff;
 
         public MenuMod(
             IModHelper helper, 
@@ -95,7 +95,7 @@ namespace bGamesPointsMod.Controllers
             this.userBgamesModel = userBgamesModel;
 
             // Instancia del menu de buff
-            menuBuffAndSkill = new MenuBuffAndSkill(helper, 
+            menuBuff = new MenuBuffView(helper, 
                 buffController, 
                 Monitor, 
                 userBgamesModel,
@@ -142,9 +142,9 @@ namespace bGamesPointsMod.Controllers
 
                 spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
             }
-            if (menuBuffAndSkill != null)
+            if (menuBuff != null)
             {
-                menuBuffAndSkill.RenderMenu(spriteBatch);
+                menuBuff.RenderMenu(spriteBatch);
             }
         }
 
@@ -153,7 +153,7 @@ namespace bGamesPointsMod.Controllers
             if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
-                menuBuffAndSkill.ToggleMenu();
+                menuBuff.ToggleMenu();
 
             }
             if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
@@ -162,13 +162,13 @@ namespace bGamesPointsMod.Controllers
             }
             else
             {
-                menuBuffAndSkill.HandleButtonClick(e, buffController);
+                menuBuff.HandleButtonClick(e, buffController);
             }
         }
 
         public void RenderMenuBuff(SpriteBatch spriteBatch)
         {
-            menuBuffAndSkill.RenderMenu(spriteBatch);
+            menuBuff.RenderMenu(spriteBatch);
         }
     }
 }

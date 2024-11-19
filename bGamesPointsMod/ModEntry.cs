@@ -37,9 +37,7 @@ namespace bGamesPointsMod
                 iconSheetIndex: 0,
                 duration: 10_000, // 10 segundos
                 effects: new BuffEffects()
-                {
-                    MiningLevel = { 10 }
-                });
+                {MiningLevel = { 10 }});
 
             Buff foraningBuff = new Buff(
                 id: "Foraning speed",
@@ -48,9 +46,7 @@ namespace bGamesPointsMod
                 iconSheetIndex: 0,
                 duration: 10_000, // 10 segundos
                 effects: new BuffEffects()
-                {
-                    ForagingLevel = { 10 }
-                });
+                {ForagingLevel = { 10 }});
 
             Buff speedBuff = new Buff(
                 id: "Foraning speed",
@@ -59,10 +55,38 @@ namespace bGamesPointsMod
                 iconSheetIndex: 0,
                 duration: 10_000, // 10 segundos
                 effects: new BuffEffects()
-                {
-                    ForagingLevel = { 10 }
-                }
-                );
+                {Speed = { 10 }});
+
+            Buff reducedEnergyBuff = new Buff(
+                id: "Reduced Energy",
+                displayName: "Speed mining buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 30_000); // 10 segundos
+
+            Buff luckLevelBuff = new Buff(id: "Luck level up",
+                displayName: "Luck level up",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {LuckLevel = { 1 }});
+
+            Buff fishingBuff = new Buff(id: "Fishing speed",
+                displayName: "Fishing speed buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {FishingLevel = { 5 }});
+
+            Buff farmingBuff = new Buff(id: "Farming speed",
+                displayName: "Speed farming buff",
+                iconTexture: null,
+                iconSheetIndex: 0,
+                duration: 10_000, // 10 segundos
+                effects: new BuffEffects()
+                {FarmingLevel = { 5 }});
 
             // Mostrar boton en pantalla del menu
             bTMenuMod = helper.ModContent.Load<Texture2D>("assets/menu.png");
@@ -71,8 +95,16 @@ namespace bGamesPointsMod
             // Crear instancia de BuffController
             pointsBgamesModel = new PointsBgamesModel("", "", "");
             userBgamesModel = new UserBgamesModel("","","","","", null);
-
-            buffController = new BuffController(this.Monitor, this.Helper, miningBuff, foraningBuff, speedBuff);
+            buffController = new BuffController(
+                this.Monitor, 
+                this.Helper, 
+                miningBuff, 
+                foraningBuff, 
+                speedBuff, 
+                reducedEnergyBuff,
+                luckLevelBuff,
+                fishingBuff,
+                farmingBuff);
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de Menu
