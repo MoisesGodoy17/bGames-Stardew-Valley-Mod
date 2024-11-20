@@ -18,15 +18,18 @@ namespace bGamesPointsMod
         // Modelos de Buffs
         public UserBgamesModel userBgamesModel;
         public PointsBgamesModel pointsBgamesModel;
+        public LevelUpModel miningSkill;
+        public LevelUpModel foraningSkill;
 
         // Controlador de Buffs
         public BuffController buffController;
         public UserBgamesController userController;
+        public LevelUpController levelUpController;
 
         // Boton de menu de mod
         private Texture2D bTMenuMod;
         private Rectangle bBMenuMod;
-        private MenuMod menu;// Instancia de la clase Menu
+        private MenuModView menu;// Instancia de la clase Menu
 
         public override void Entry(IModHelper helper)
         {
@@ -39,9 +42,9 @@ namespace bGamesPointsMod
                 effects: new BuffEffects()
                 {MiningLevel = { 10 }});
 
-            Buff foraningBuff = new Buff(
-                id: "Foraning speed",
-                displayName: "Speed foraning buff",
+            Buff foragingBuff = new Buff(
+                id: "Foraging speed",
+                displayName: "Speed foraging buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
                 duration: 10_000, // 10 segundos
@@ -49,8 +52,8 @@ namespace bGamesPointsMod
                 {ForagingLevel = { 10 }});
 
             Buff speedBuff = new Buff(
-                id: "Foraning speed",
-                displayName: "Speed foraning buff",
+                id: "walking speed",
+                displayName: "Walking speed buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
                 duration: 10_000, // 10 segundos
@@ -88,6 +91,11 @@ namespace bGamesPointsMod
                 effects: new BuffEffects()
                 {FarmingLevel = { 5 }});
 
+            // Inicializar modelos de level up
+            miningSkill = new LevelUpModel(100, "Mining");
+            foraningSkill = new LevelUpModel(100, "Foraging");
+
+
             // Mostrar boton en pantalla del menu
             bTMenuMod = helper.ModContent.Load<Texture2D>("assets/menu.png");
             bBMenuMod = new Rectangle(10, 10, 20, 20);
@@ -99,7 +107,7 @@ namespace bGamesPointsMod
                 this.Monitor, 
                 this.Helper, 
                 miningBuff, 
-                foraningBuff, 
+                foragingBuff, 
                 speedBuff, 
                 reducedEnergyBuff,
                 luckLevelBuff,
@@ -107,8 +115,11 @@ namespace bGamesPointsMod
                 farmingBuff);
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
+            // Crear instancia de LevelUpController
+            levelUpController = new LevelUpController(this.Monitor, this.Helper, miningSkill, foraningSkill);
+
             // Crear instancia de Menu
-            menu = new MenuMod(helper, buffController, Monitor, userBgamesModel, userController);
+            menu = new MenuModView(helper, buffController, Monitor, userBgamesModel, userController, levelUpController);
 
             // Mostrar boton en pantalla
             helper.Events.GameLoop.DayStarted += OnDayStarted;
@@ -137,7 +148,7 @@ namespace bGamesPointsMod
             }
             else
             {
-                menu.OnOpenMenuBuff(e, buffController);
+                menu.OnOpenMenuBuff(e, buffController, levelUpController);
             }
         }
         private void OnRenderedHud(object sender, RenderedHudEventArgs e)

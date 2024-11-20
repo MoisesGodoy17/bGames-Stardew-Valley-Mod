@@ -22,7 +22,7 @@ public class BuffController
              IMonitor monitor,
              IModHelper helper,  //Helper
              Buff miningBuff,
-             Buff foraningBuff,
+             Buff foragingBuff,
              Buff speedBuff,
              Buff reducedEnergyBuff,
              Buff luckLevelBuff,
@@ -32,7 +32,7 @@ public class BuffController
         this.Monitor = monitor;
         this.Helper = helper;  //helper
         this.miningBuff = miningBuff;
-        this.foraningBuff = foraningBuff;
+        this.foraningBuff = foragingBuff;
         this.speedBuff = speedBuff;
         this.reducedEnergyBuff = reducedEnergyBuff;
         this.luckLevelBuff = luckLevelBuff;
@@ -56,7 +56,7 @@ public class BuffController
         Game1.player.applyBuff(speedBuff);
     }
 
-    public void BuffForaning()
+    public void BuffForaging()
     {
         Buff foraningBuff = new Buff(
                 id: "Foraning speed",

@@ -6,20 +6,26 @@ using StardewValley;
 
 namespace bGamesPointsMod.Controllers
 {
-    internal class LevelUpController
+    public class LevelUpController
     {
         private readonly IMonitor Monitor;
+        private readonly IModHelper Helper;
         private LevelUpModel miningSkill;
         private LevelUpModel foraningSkill;
 
-        public LevelUpController(IMonitor monitor, LevelUpModel miningSkill, LevelUpModel foraningSkill)
+        public LevelUpController(
+            IMonitor monitor, 
+            IModHelper helper,
+            LevelUpModel miningSkill, 
+            LevelUpModel foraningSkill)
         {
             Monitor = monitor;
+            Helper = helper;
             this.miningSkill = miningSkill;
             this.foraningSkill = foraningSkill;
         }
 
-        private void SkillMining()
+        public void SkillMining()
         {
             if (!Context.IsWorldReady || Game1.player == null)
                 return;
@@ -33,7 +39,7 @@ namespace bGamesPointsMod.Controllers
                 Game1.addHUDMessage(new HUDMessage("¡Tu habilidad de miner@ ha incrementado!", 2));
             }
         }
-        private void SkillForaging()
+        public void SkillForaging()
         {
             if (!Context.IsWorldReady || Game1.player == null)
                 return;

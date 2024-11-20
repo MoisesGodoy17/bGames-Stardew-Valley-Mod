@@ -10,7 +10,7 @@ using bGamesPointsMod.Models;
 
 namespace bGamesPointsMod.Controllers
 {
-    public class MenuMod : IClickableMenu
+    public class MenuModView : IClickableMenu
     {
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
@@ -28,6 +28,9 @@ namespace bGamesPointsMod.Controllers
         // Controller del usaurio
         public UserBgamesController userBgamesController;
 
+        // Controlador level up
+        public LevelUpController levelUpController;
+
         // Botones inferiores
         private ClickableComponent buttonBuff;
         private ClickableComponent buttonLevelUp;
@@ -35,15 +38,18 @@ namespace bGamesPointsMod.Controllers
         // Control para mostrar/ocultar el menú
         private bool isMenuVisible = false;
 
-        // Menu de buff y skill
+        // Menu de buff y skills
         MenuBuffView menuBuff;
+        MenuSkillsView menuSkills;
 
-        public MenuMod(
+
+        public MenuModView(
             IModHelper helper, 
             BuffController buffController, 
             IMonitor monitor, 
             UserBgamesModel userBgamesModel,
-            UserBgamesController userBgamesController)
+            UserBgamesController userBgamesController,
+            LevelUpController levelUpController)
         {
             // Inicializar Buffs y Helper
             this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
@@ -51,6 +57,7 @@ namespace bGamesPointsMod.Controllers
             this.Monitor = monitor;
             this.userBgamesModel = userBgamesModel;
             this.userBgamesController = userBgamesController;
+            this.levelUpController = levelUpController;
 
 
             // Cargar el fondo del menú
@@ -95,11 +102,19 @@ namespace bGamesPointsMod.Controllers
             this.userBgamesModel = userBgamesModel;
 
             // Instancia del menu de buff
-            menuBuff = new MenuBuffView(helper, 
+            menuBuff = new MenuBuffView(
+                helper, 
                 buffController, 
                 Monitor, 
                 userBgamesModel,
                 userBgamesController);
+
+            menuSkills = new MenuSkillsView(
+                helper,
+                Monitor,
+                userBgamesModel,
+                userBgamesController,
+                levelUpController);
         }
 
         public void ToggleMenu()
@@ -146,29 +161,52 @@ namespace bGamesPointsMod.Controllers
             {
                 menuBuff.RenderMenu(spriteBatch);
             }
+            if (menuSkills != null)
+            {
+                menuSkills.RenderMenu(spriteBatch);
+            }
         }
 
-        public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController)
+        public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController, LevelUpController levelUpController)
         {
+            // Verificar si el botón de Buffs fue clickeado
             if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
                 menuBuff.ToggleMenu();
-
             }
-            if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            // Verificar si el botón de Level Up fue clickeado
+            else if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                this.Monitor.Log("Botón de level up clickeado.", LogLevel.Info);
+                this.Monitor.Log("Botón de Level up clickeado.", LogLevel.Info);
+                menuSkills.ToggleMenu(); // Alternar la visibilidad del menú de habilidades
             }
             else
             {
+                // Manejar clics en los botones del menú Buff
                 menuBuff.HandleButtonClick(e, buffController);
+            }
+
+            // Manejar clics en los botones del menú Skills
+            if (menuSkills.IsMenuVisible) // Asegurarse de que el menú esté visible
+            {
+                menuSkills.HandleButtonClick(e, levelUpController);
             }
         }
 
-        public void RenderMenuBuff(SpriteBatch spriteBatch)
+        public void RenderMenus(SpriteBatch spriteBatch)
         {
-            menuBuff.RenderMenu(spriteBatch);
+            // Renderizar el menú de Buffs si está visible
+            if (menuBuff.IsMenuVisible)
+            {
+                menuBuff.RenderMenu(spriteBatch);
+            }
+
+            // Renderizar el menú de Skills si está visible
+            if (menuSkills.IsMenuVisible)
+            {
+                menuSkills.RenderMenu(spriteBatch);
+            }
         }
     }
 }

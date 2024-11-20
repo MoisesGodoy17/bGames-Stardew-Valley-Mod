@@ -8,12 +8,10 @@ public class LevelUpModel
 {
     public int Experience { get; set; }
     public string Description { get; set; }
-    public int Level { get; set; }
 
-    public LevelUpModel(int experience, string description, int level)
+    public LevelUpModel(int experience, string description)
     {
         Experience = experience;
         Description = description;
-        Level = level;
     }
 }

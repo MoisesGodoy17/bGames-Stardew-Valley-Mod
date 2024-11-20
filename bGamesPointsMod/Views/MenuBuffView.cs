@@ -17,8 +17,8 @@ namespace bGamesPointsMod.Controllers
     {
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
-        // Menu backgound
 
+        // Menu backgound
         private Texture2D menuBg;
         private Rectangle positionMenuBg;
 
@@ -34,7 +34,7 @@ namespace bGamesPointsMod.Controllers
         // Botones inferiores
         private ClickableComponent speedBuff;
         private ClickableComponent miningBuff;
-        private ClickableComponent foranmingBuff;
+        private ClickableComponent foragingBuff;
         private ClickableComponent reducedEnergyBuff;
         private ClickableComponent luckLevelBuff;
         private ClickableComponent fishingBuff;
@@ -92,10 +92,10 @@ namespace bGamesPointsMod.Controllers
                     buttonHeight
                 ), "Mining Buff\n10pts"
             );
-            foranmingBuff = new ClickableComponent(
+            foragingBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 70,
-                    buttonY + 90,
+                    buttonY + 100,
                     buttonWidth,
                     buttonHeight
                 ), "Foraning Buff\n10 pts"
@@ -103,7 +103,7 @@ namespace bGamesPointsMod.Controllers
             reducedEnergyBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
-                    buttonY + 90,
+                    buttonY + 100,
                     buttonWidth,
                     buttonHeight
                 ), "Stemine Buff\n10 pts"
@@ -111,7 +111,7 @@ namespace bGamesPointsMod.Controllers
             luckLevelBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 70,
-                    buttonY + 180,
+                    buttonY + 200,
                     buttonWidth,
                     buttonHeight
                 ), "Luck Buff\n10 pts"
@@ -119,7 +119,7 @@ namespace bGamesPointsMod.Controllers
             fishingBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
-                    buttonY + 180,
+                    buttonY + 200,
                     buttonWidth,
                     buttonHeight
                 ), "Fishing Buff\n10 pts"
@@ -127,7 +127,7 @@ namespace bGamesPointsMod.Controllers
             farmingBuff = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 70,
-                    buttonY + 270,
+                    buttonY + 300,
                     buttonWidth,
                     buttonHeight
                 ), "Farming Buff\n10 pts"
@@ -135,7 +135,7 @@ namespace bGamesPointsMod.Controllers
 
             Game1.mouseCursor = 0;
             // Suscribir al evento ButtonPressed para escuchar la tecla F3
-            this.Helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
+            this.Helper.Events.Input.ButtonPressed += OnButtonPressedMenuBuff;
             // Subscribirse al evento UpdateTicked para verificar el estado del buff
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
         }
@@ -153,7 +153,7 @@ namespace bGamesPointsMod.Controllers
                 // Dibujar botones inferiores
                 Utility.drawTextWithShadow(spriteBatch, speedBuff.name, Game1.dialogueFont, new Vector2(speedBuff.bounds.X, speedBuff.bounds.Y), Color.White);
                 Utility.drawTextWithShadow(spriteBatch, miningBuff.name, Game1.dialogueFont, new Vector2(miningBuff.bounds.X, miningBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, foranmingBuff.name, Game1.dialogueFont, new Vector2(foranmingBuff.bounds.X, foranmingBuff.bounds.Y), Color.White);
+                Utility.drawTextWithShadow(spriteBatch, foragingBuff.name, Game1.dialogueFont, new Vector2(foragingBuff.bounds.X, foragingBuff.bounds.Y), Color.White);
                 Utility.drawTextWithShadow(spriteBatch, reducedEnergyBuff.name, Game1.dialogueFont, new Vector2(reducedEnergyBuff.bounds.X, reducedEnergyBuff.bounds.Y), Color.White);
                 Utility.drawTextWithShadow(spriteBatch, luckLevelBuff.name, Game1.dialogueFont, new Vector2(luckLevelBuff.bounds.X, luckLevelBuff.bounds.Y), Color.White);
                 Utility.drawTextWithShadow(spriteBatch, fishingBuff.name, Game1.dialogueFont, new Vector2(fishingBuff.bounds.X, fishingBuff.bounds.Y), Color.White);
@@ -182,10 +182,10 @@ namespace bGamesPointsMod.Controllers
                 this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
                 buffController.BuffMining();
             }
-            if (e.Button == SButton.MouseLeft && foranmingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            if (e.Button == SButton.MouseLeft && foragingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 this.Monitor.Log("Botón de Foraning Buff clickeado.", LogLevel.Info);
-                buffController.BuffForaning();
+                buffController.BuffForaging();
             }
             if (e.Button == SButton.MouseLeft && reducedEnergyBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
@@ -223,7 +223,7 @@ namespace bGamesPointsMod.Controllers
                 this.Monitor.Log("Hay un buff activo.", LogLevel.Debug);
             }
         }
-        private void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
+        private void OnButtonPressedMenuBuff(object sender, ButtonPressedEventArgs e)
         {
             if (e.Button == SButton.F3)
             {
