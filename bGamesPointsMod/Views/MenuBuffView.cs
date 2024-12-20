@@ -39,11 +39,15 @@ namespace bGamesPointsMod.Controllers
         private ClickableComponent luckLevelBuff;
         private ClickableComponent fishingBuff;
         private ClickableComponent farmingBuff;
+        private ClickableComponent closeButton;
 
         // Control para mostrar/ocultar el menú
         private bool isMenuVisible = false;
 
         public bool IsMenuVisible => isMenuVisible;
+
+        private int lastViewportWidth;
+        private int lastViewportHeight;
 
         public MenuBuffView(
         IModHelper helper,
@@ -60,8 +64,18 @@ namespace bGamesPointsMod.Controllers
 
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
 
-            int menuWidth = 640;
-            int menuHeight = 480;
+            // Suscribirse a eventos de entrada y actualización
+            this.Helper.Events.Input.ButtonPressed += OnButtonPressedMenuBuff;
+            this.Helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+
+            // Configurar el layout inicial
+            UpdateLayout();
+        }
+
+        public void UpdateLayout()
+        {
+            int menuWidth = Game1.viewport.Width / 3; // 1/3 del ancho de la ventana
+            int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
 
             positionMenuBg = new Rectangle(
                 (Game1.viewport.Width - menuWidth) / 2,
@@ -70,78 +84,30 @@ namespace bGamesPointsMod.Controllers
                 menuHeight
             );
 
-            int buttonWidth = 100;
-            int buttonHeight = 40;
-            int buttonSpacing = 150;
-            int buttonY = positionMenuBg.Y + 20;
+            int buttonWidth = menuWidth / 4;
+            int buttonHeight = menuHeight / 8;
+            int buttonSpacing = 10;
+            int buttonY = positionMenuBg.Y + 50;
 
-            speedBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70,
-                    buttonY,
-                    buttonWidth,
-                    buttonHeight
-                ), "Speed Buff\n10 pts"
-                
-            );
-            miningBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
-                    buttonY,
-                    buttonWidth,
-                    buttonHeight
-                ), "Mining Buff\n10pts"
-            );
-            foragingBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70,
-                    buttonY + 100,
-                    buttonWidth,
-                    buttonHeight
-                ), "Foraning Buff\n10 pts"
-            );
-            reducedEnergyBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
-                    buttonY + 100,
-                    buttonWidth,
-                    buttonHeight
-                ), "Stemine Buff\n10 pts"
-            );
-            luckLevelBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70,
-                    buttonY + 200,
-                    buttonWidth,
-                    buttonHeight
-                ), "Luck Buff\n10 pts"
-            );
-            fishingBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
-                    buttonY + 200,
-                    buttonWidth,
-                    buttonHeight
-                ), "Fishing Buff\n10 pts"
-            );
-            farmingBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + 70,
-                    buttonY + 300,
-                    buttonWidth,
-                    buttonHeight
-                ), "Farming Buff\n10 pts"
-            );
+            // Definición de botones
+            speedBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY, buttonWidth, buttonHeight), "Speed Buff");
+            miningBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY, buttonWidth, buttonHeight), "Mining Buff");
+            foragingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 100, buttonWidth, buttonHeight), "Foraging Buff");
+            reducedEnergyBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY + 100, buttonWidth, buttonHeight), "Stamina Buff");
+            luckLevelBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 200, buttonWidth, buttonHeight), "Luck Buff");
+            fishingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY + 200, buttonWidth, buttonHeight), "Fishing Buff");
+            farmingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 300, buttonWidth, buttonHeight), "Farming Buff");
+            closeButton = new ClickableComponent(new Rectangle(positionMenuBg.X + menuWidth - 40, positionMenuBg.Y, 30, 30), "X");
 
-            Game1.mouseCursor = 0;
-            // Suscribir al evento ButtonPressed para escuchar la tecla F3
-            this.Helper.Events.Input.ButtonPressed += OnButtonPressedMenuBuff;
-            // Subscribirse al evento UpdateTicked para verificar el estado del buff
-            helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+            // Actualizar las dimensiones guardadas
+            lastViewportWidth = Game1.viewport.Width;
+            lastViewportHeight = Game1.viewport.Height;
         }
+
         public void ToggleMenu()
         {
             isMenuVisible = !isMenuVisible;
+            Game1.activeClickableMenu = isMenuVisible ? this : null;
         }
         public void RenderMenu(SpriteBatch spriteBatch)
         {
@@ -149,17 +115,71 @@ namespace bGamesPointsMod.Controllers
             {
                 // Dibujar fondo del menú solo si está visible
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
-
-                // Dibujar botones inferiores
-                Utility.drawTextWithShadow(spriteBatch, speedBuff.name, Game1.dialogueFont, new Vector2(speedBuff.bounds.X, speedBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, miningBuff.name, Game1.dialogueFont, new Vector2(miningBuff.bounds.X, miningBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, foragingBuff.name, Game1.dialogueFont, new Vector2(foragingBuff.bounds.X, foragingBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, reducedEnergyBuff.name, Game1.dialogueFont, new Vector2(reducedEnergyBuff.bounds.X, reducedEnergyBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, luckLevelBuff.name, Game1.dialogueFont, new Vector2(luckLevelBuff.bounds.X, luckLevelBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, fishingBuff.name, Game1.dialogueFont, new Vector2(fishingBuff.bounds.X, fishingBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, farmingBuff.name, Game1.dialogueFont, new Vector2(farmingBuff.bounds.X, farmingBuff.bounds.Y), Color.White);
+                // Dibujar botones con el costo debajo
+                DrawButtonWithCost(spriteBatch, speedBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, miningBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, foragingBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, reducedEnergyBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, luckLevelBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, fishingBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, farmingBuff, "10 pts");
+                DrawCloseButton(spriteBatch);
+                drawMouse(spriteBatch);
             }
         }
+
+        private void DrawButtonWithCost(SpriteBatch spriteBatch, ClickableComponent button, string cost)
+        {
+            int borderThickness = 2;
+
+            // Dibujar fondo del botón
+            spriteBatch.Draw(Game1.staminaRect, button.bounds, Color.Khaki);
+
+            // Dibujar bordes
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, button.bounds.Width, borderThickness), Color.Brown);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X + button.bounds.Width - borderThickness, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y + button.bounds.Height - borderThickness, button.bounds.Width, borderThickness), Color.Brown);
+
+            // Dibujar texto del botón
+            Vector2 textSize = Game1.smallFont.MeasureString(button.name);
+            Vector2 textPosition = new Vector2(
+                button.bounds.X + (button.bounds.Width - textSize.X) / 2,
+                button.bounds.Y + (button.bounds.Height - textSize.Y) / 2
+            );
+            Utility.drawTextWithShadow(spriteBatch, button.name, Game1.smallFont, textPosition, Color.Brown);
+
+            // Dibujar costo debajo
+            Vector2 costSize = Game1.smallFont.MeasureString(cost);
+            Vector2 costPosition = new Vector2(
+                button.bounds.X + (button.bounds.Width - costSize.X) / 2,
+                button.bounds.Y + button.bounds.Height + 5
+            );
+            Utility.drawTextWithShadow(spriteBatch, cost, Game1.smallFont, costPosition, Color.Black);
+        }
+
+        private void DrawCloseButton(SpriteBatch spriteBatch)
+        {
+            int borderThickness = 2;
+
+            // Dibujar el fondo del botón
+            spriteBatch.Draw(Game1.staminaRect, closeButton.bounds, Color.Red);
+
+            // Dibujar bordes del botón
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y, closeButton.bounds.Width, borderThickness), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y, borderThickness, closeButton.bounds.Height), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X + closeButton.bounds.Width - borderThickness, closeButton.bounds.Y, borderThickness, closeButton.bounds.Height), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y + closeButton.bounds.Height - borderThickness, closeButton.bounds.Width, borderThickness), Color.White);
+
+            // Dibujar el texto "X"
+            Vector2 textSize = Game1.smallFont.MeasureString(closeButton.name);
+            Vector2 textPosition = new Vector2(
+                closeButton.bounds.X + (closeButton.bounds.Width - textSize.X) / 2,
+                closeButton.bounds.Y + (closeButton.bounds.Height - textSize.Y) / 2
+            );
+            Utility.drawTextWithShadow(spriteBatch, closeButton.name, Game1.smallFont, textPosition, Color.White);
+        }
+
         public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController)
         {
             // Si el menú no está visible, ignorar los clics
@@ -167,6 +187,14 @@ namespace bGamesPointsMod.Controllers
             {
                 return;
             }
+
+            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            {
+                Monitor.Log("Cerrar menú.", LogLevel.Info);
+                Game1.activeClickableMenu = null; // Cierra el menú
+                ToggleMenu(); // Cierra el menu
+            }
+
 
             if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
@@ -221,6 +249,12 @@ namespace bGamesPointsMod.Controllers
                 buffController.IsActiveFarmingBuff)
             {
                 this.Monitor.Log("Hay un buff activo.", LogLevel.Debug);
+            }
+
+            // Detectar cambio en el tamaño de la ventana
+            if (Game1.viewport.Width != lastViewportWidth || Game1.viewport.Height != lastViewportHeight)
+            {
+                UpdateLayout();
             }
         }
         private void OnButtonPressedMenuBuff(object sender, ButtonPressedEventArgs e)

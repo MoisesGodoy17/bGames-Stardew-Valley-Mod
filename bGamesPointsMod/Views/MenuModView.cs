@@ -15,20 +15,14 @@ namespace bGamesPointsMod.Controllers
         private readonly IMonitor Monitor;
         private readonly IModHelper Helper;
 
-        // Menu backgound
+        // Fondo del menú
         public Texture2D menuBg;
         public Rectangle positionMenuBg;
 
-        // Controlador de Buffs
+        // Controladores
         public BuffController buffController;
-
-        // Usuario
         public UserBgamesModel userBgamesModel;
-
-        // Controller del usaurio
         public UserBgamesController userBgamesController;
-
-        // Controlador level up
         public LevelUpController levelUpController;
 
         // Botones inferiores
@@ -38,20 +32,19 @@ namespace bGamesPointsMod.Controllers
         // Control para mostrar/ocultar el menú
         private bool isMenuVisible = false;
 
-        // Menu de buff y skills
-        MenuBuffView menuBuff;
-        MenuSkillsView menuSkills;
-
+        // Menús de Buff y Skills
+        private MenuBuffView menuBuff;
+        private MenuSkillsView menuSkills;
 
         public MenuModView(
-            IModHelper helper, 
-            BuffController buffController, 
-            IMonitor monitor, 
+            IModHelper helper,
+            BuffController buffController,
+            IMonitor monitor,
             UserBgamesModel userBgamesModel,
             UserBgamesController userBgamesController,
             LevelUpController levelUpController)
         {
-            // Inicializar Buffs y Helper
+            // Inicialización
             this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
             this.buffController = buffController ?? throw new ArgumentNullException(nameof(buffController));
             this.Monitor = monitor;
@@ -59,62 +52,33 @@ namespace bGamesPointsMod.Controllers
             this.userBgamesController = userBgamesController;
             this.levelUpController = levelUpController;
 
-
             // Cargar el fondo del menú
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
 
-            // Configuración de tamaño y posición del menú
-            int menuWidth = 640; // Ancho del fondo del menú
-            int menuHeight = 480; // Alto del fondo del menú
-
-            // Centrando el menú en la pantalla
+            // Configuración del tamaño y posición del menú
+            int menuWidth = 640, menuHeight = 480;
             positionMenuBg = new Rectangle(
-                (Game1.viewport.Width - menuWidth) / 2, // X centrado
-                (Game1.viewport.Height - menuHeight) / 2, // Y centrado
+                (Game1.viewport.Width - menuWidth) / 2,
+                (Game1.viewport.Height - menuHeight) / 2,
                 menuWidth,
                 menuHeight
             );
-            // Inicializar botones y colocarlos uno al lado del otro en la parte inferior del menú
-            int buttonWidth = 100;
-            int buttonHeight = 40;
-            int buttonSpacing = 10; // Espacio entre los botones
 
-            // Coordenadas para los botones en la parte inferior
+            // Configuración de botones
+            int buttonWidth = 150, buttonHeight = 40, buttonSpacing = 10;
             int buttonY = positionMenuBg.Y + menuHeight - buttonHeight - buttonSpacing;
 
             buttonBuff = new ClickableComponent(
-                new Rectangle(
-                    positionMenuBg.X + (menuWidth - 2 * buttonWidth - buttonSpacing) / 2, // X para el primer botón
-                    buttonY,
-                    buttonWidth,
-                    buttonHeight
-                ), "Buff"
-            );
+                new Rectangle(positionMenuBg.X + (menuWidth - 2 * buttonWidth - buttonSpacing) / 2,
+                              buttonY, buttonWidth, buttonHeight), "Buff");
+
             buttonLevelUp = new ClickableComponent(
-                new Rectangle(
-                    buttonBuff.bounds.X + buttonWidth + buttonSpacing, // X para el segundo botón a la derecha del primero
-                    buttonY,
-                    buttonWidth,
-                    buttonHeight
-                ), "Level Up"
-            );
-            Game1.mouseCursor = 0;
-            this.userBgamesModel = userBgamesModel;
+                new Rectangle(buttonBuff.bounds.X + buttonWidth + buttonSpacing,
+                              buttonY, buttonWidth, buttonHeight), "Level Up");
 
-            // Instancia del menu de buff
-            menuBuff = new MenuBuffView(
-                helper, 
-                buffController, 
-                Monitor, 
-                userBgamesModel,
-                userBgamesController);
-
-            menuSkills = new MenuSkillsView(
-                helper,
-                Monitor,
-                userBgamesModel,
-                userBgamesController,
-                levelUpController);
+            // Instancia de los menús
+            menuBuff = new MenuBuffView(helper, buffController, monitor, userBgamesModel, userBgamesController);
+            menuSkills = new MenuSkillsView(helper, monitor, userBgamesModel, userBgamesController, levelUpController);
         }
 
         public void ToggleMenu()
@@ -126,45 +90,55 @@ namespace bGamesPointsMod.Controllers
         {
             if (isMenuVisible)
             {
-                // Dibujar fondo del menú solo si está visible
+                // Dibujar el fondo del menú
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
 
                 // Dibujar botones inferiores
-                Utility.drawTextWithShadow(spriteBatch, buttonBuff.name, Game1.dialogueFont, new Vector2(buttonBuff.bounds.X, buttonBuff.bounds.Y), Color.White);
-                Utility.drawTextWithShadow(spriteBatch, buttonLevelUp.name, Game1.dialogueFont, new Vector2(buttonLevelUp.bounds.X, buttonLevelUp.bounds.Y), Color.White);
-            }
-            if (userBgamesModel != null) // Si el usuario no es nulo, muestra la información del usuario
-            {
-                string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
+                DrawButton(spriteBatch, buttonBuff.bounds, buttonBuff.name, Color.Khaki, Color.White, Color.Brown);
+                DrawButton(spriteBatch, buttonLevelUp.bounds, buttonLevelUp.name, Color.Khaki, Color.White, Color.Brown);
+                
 
-                // Coordenadas para dibujar el texto en la parte superior del menú
-                float textX = positionMenuBg.X + 20; // Margen desde la izquierda
-                float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
-
-                spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(textX, textY), Color.Black);
-            }
-
-            if (userBgamesModel.Points != null)
-            {
-                string userPointsInfo = "";
-                foreach (var points in userBgamesModel.Points)
+                // Dibujar información del usuario
+                if (userBgamesModel != null)
                 {
-                    userPointsInfo += $"{points.Name}: {points.Data}\n";
+                    string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
+                    spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(positionMenuBg.X + 20, positionMenuBg.Y + 20), Color.Black);
                 }
-                // Coordenadas para dibujar el texto en la parte superior del menú
-                float textX = positionMenuBg.X + 400; // Margen desde la izquierda
-                float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
 
-                spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
+                // Renderizar menús Buff y Skills si están visibles
+                if (menuBuff.IsMenuVisible) menuBuff.RenderMenu(spriteBatch);
+                if (menuSkills.IsMenuVisible) menuSkills.RenderMenu(spriteBatch);
             }
+
+            // Dibujar cursor del mouse
+            drawMouse(spriteBatch);
             if (menuBuff != null)
-            {
                 menuBuff.RenderMenu(spriteBatch);
-            }
+            
             if (menuSkills != null)
-            {
                 menuSkills.RenderMenu(spriteBatch);
-            }
+        }
+
+        public void DrawButton(SpriteBatch spriteBatch, Rectangle bounds, string text, Color buttonColor, Color borderColor, Color textColor)
+        {
+            int borderThickness = 2;
+
+            // Dibujar el fondo del botón
+            spriteBatch.Draw(Game1.staminaRect, bounds, buttonColor);
+
+            // Dibujar bordes del botón
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(bounds.X, bounds.Y, bounds.Width, borderThickness), borderColor); // Top
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(bounds.X, bounds.Y, borderThickness, bounds.Height), borderColor); // Left
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(bounds.X + bounds.Width - borderThickness, bounds.Y, borderThickness, bounds.Height), borderColor); // Right
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(bounds.X, bounds.Y + bounds.Height - borderThickness, bounds.Width, borderThickness), borderColor); // Bottom
+
+            // Dibujar el texto centrado
+            Vector2 textSize = Game1.smallFont.MeasureString(text);
+            Vector2 textPosition = new Vector2(
+                bounds.X + (bounds.Width - textSize.X) / 2,
+                bounds.Y + (bounds.Height - textSize.Y) / 2
+            );
+            Utility.drawTextWithShadow(spriteBatch, text, Game1.smallFont, textPosition, textColor);
         }
 
         public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController, LevelUpController levelUpController)
