@@ -91,11 +91,11 @@ namespace bGamesPointsMod.Controllers
 
             // Definición de botones
             speedBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY, buttonWidth, buttonHeight), "Speed Buff");
-            miningBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY, buttonWidth, buttonHeight), "Mining Buff");
+            miningBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY, buttonWidth, buttonHeight), "Mining Buff");
             foragingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 100, buttonWidth, buttonHeight), "Foraging Buff");
-            reducedEnergyBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY + 100, buttonWidth, buttonHeight), "Stamina Buff");
+            reducedEnergyBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY + 100, buttonWidth, buttonHeight), "Stamina Buff");
             luckLevelBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 200, buttonWidth, buttonHeight), "Luck Buff");
-            fishingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50 + buttonWidth + buttonSpacing, buttonY + 200, buttonWidth, buttonHeight), "Fishing Buff");
+            fishingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY + 200, buttonWidth, buttonHeight), "Fishing Buff");
             farmingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 300, buttonWidth, buttonHeight), "Farming Buff");
             closeButton = new ClickableComponent(new Rectangle(positionMenuBg.X + menuWidth - 40, positionMenuBg.Y, 30, 30), "X");
 

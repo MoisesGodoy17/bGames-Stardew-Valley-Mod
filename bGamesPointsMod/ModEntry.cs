@@ -20,6 +20,7 @@ namespace bGamesPointsMod
         public PointsBgamesModel pointsBgamesModel;
         public LevelUpModel miningSkill;
         public LevelUpModel foraningSkill;
+        int CheckConnection;
 
         // Controlador de Buffs
         public BuffController buffController;
@@ -121,50 +122,71 @@ namespace bGamesPointsMod
             // Crear instancia de Menu
             menu = new MenuModView(helper, buffController, Monitor, userBgamesModel, userController, levelUpController);
 
+            
+
             // Mostrar boton en pantalla
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
             helper.Events.Display.RenderedHud += OnRenderedHud;
-            helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
+            //helper.Events.Input.ButtonPressed += OnButtonPressedLogin;
         }
-        private void OnDayStarted(object sender, DayStartedEventArgs e)
-        {
+        private async void OnDayStarted(object sender, DayStartedEventArgs e) {
+            CheckConnection = await userController.CheckConnectionBgames();
+
             // Verifica si el jugador tiene un pico equipado
-            if (Game1.player.CurrentTool is Pickaxe pickaxe)
-            {
+            if (Game1.player.CurrentTool is Pickaxe pickaxe) {
                 // Restauramos la velocidad de animación del pico a su valor por defecto (1.0)
                 pickaxe.AnimationSpeedModifier = 1.0f;
                 this.Monitor.Log("Nuevo día: Se restauró la velocidad de animación del pico a 1.0.", LogLevel.Info);
             }
+            if (CheckConnection == 1) {
+                this.Monitor.Log("Conexion extablecida!", LogLevel.Info);
+                if (userController.CredentialsFileExists()) {
+                    this.Monitor.Log("Ya existe un usario!", LogLevel.Info);
+                }
+                else {
+                    this.Monitor.Log("No existe un usario!", LogLevel.Info);
+                }
+            }
+            else {
+                this.Monitor.Log("Sin conexion con bGames!", LogLevel.Info);
+            }
         }
-        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
-        {
+        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e) {
             if (!Context.IsWorldReady) return;
 
-            if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
-                menu.ToggleMenu();
+            if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                if (CheckConnection == 1) {
+                    this.Monitor.Log("Conexion extablecida!", LogLevel.Info);
+                    if (userController.CredentialsFileExists()) {
+                        userController.LoadCredentials(); // Carga las credenciales guardadas en el json y las asigna al modelo bGames
+                        this.Monitor.Log("Ya existe un usario!", LogLevel.Info);
+                        Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
+                        menu.ToggleMenu();
+                    }
+                    else {
+                        // Solo muestra LoginView en pantalla cuando no existe un jugador
+                        OnButtonPressedLogin(sender, e);
+                        this.Monitor.Log("No existe un usario!", LogLevel.Info);
+                    }
+                }
+                else {
+                    this.Monitor.Log("Sin conexion con bGames!", LogLevel.Info);
+                }
             }
-            else
-            {
+            else {
                 menu.OnOpenMenuBuff(e, buffController, levelUpController);
             }
         }
-        private void OnRenderedHud(object sender, RenderedHudEventArgs e)
-        {
+        private void OnRenderedHud(object sender, RenderedHudEventArgs e) {
             var spriteBatch = e.SpriteBatch;
 
             spriteBatch.Draw(bTMenuMod, bBMenuMod, Color.White);
             menu.RenderMenu(spriteBatch);
         }
-        private void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e)
-        {
-            if (e.Button == SButton.F5)
-            {
-                // Solo muestra LoginView en pantalla cuando se presiona F5
-                Game1.activeClickableMenu = new LoginView(userController, this.Monitor);
-            }
+        private void OnButtonPressedLogin(object sender, ButtonPressedEventArgs e) {
+            // Solo muestra LoginView en pantalla cuando no existe un jugador
+            Game1.activeClickableMenu = new LoginView(userController, this.Monitor, this.Helper);
         }
     }
 }
