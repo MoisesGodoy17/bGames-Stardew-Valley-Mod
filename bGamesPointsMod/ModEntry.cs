@@ -152,7 +152,9 @@ namespace bGamesPointsMod
                 this.Monitor.Log("Sin conexion con bGames!", LogLevel.Info);
             }
         }
-        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e) {
+        private async void OnButtonPressed(object? sender, ButtonPressedEventArgs e) {
+            CheckConnection = await userController.CheckConnectionBgames();
+
             if (!Context.IsWorldReady) return;
 
             if (e.Button == SButton.MouseLeft && bBMenuMod.Contains(Game1.getMouseX(), Game1.getMouseY())) {
@@ -161,6 +163,7 @@ namespace bGamesPointsMod
                     if (userController.CredentialsFileExists()) {
                         userController.LoadCredentials(); // Carga las credenciales guardadas en el json y las asigna al modelo bGames
                         this.Monitor.Log("Ya existe un usario!", LogLevel.Info);
+                        Game1.addHUDMessage(new HUDMessage("Conexion con bGames establecida!", 2));
                         Monitor.Log("Botón de menú clickeado.", LogLevel.Info);
                         menu.ToggleMenu();
                     }
@@ -172,6 +175,8 @@ namespace bGamesPointsMod
                 }
                 else {
                     this.Monitor.Log("Sin conexion con bGames!", LogLevel.Info);
+                    Game1.addHUDMessage(new HUDMessage("Sin conexion con bGames!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Inicia los servicios de bGames para continuar!", 2));
                 }
             }
             else {

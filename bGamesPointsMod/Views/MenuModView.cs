@@ -7,6 +7,7 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
 using bGamesPointsMod.Models;
+using System.Threading;
 
 namespace bGamesPointsMod.Controllers
 {
@@ -35,6 +36,11 @@ namespace bGamesPointsMod.Controllers
         // Menús de Buff y Skills
         private MenuBuffView menuBuff;
         private MenuSkillsView menuSkills;
+        private ClickableComponent closeButton;
+
+        // Guarda el ancho y alto de la ventana para detectar cambios
+        private int lastViewportWidth;
+        private int lastViewportHeight;
 
         public MenuModView(
             IModHelper helper,
@@ -55,8 +61,19 @@ namespace bGamesPointsMod.Controllers
             // Cargar el fondo del menú
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
 
+            // Instancia de los menús
+            menuBuff = new MenuBuffView(helper, buffController, monitor, userBgamesModel, userBgamesController);
+            menuSkills = new MenuSkillsView(helper, monitor, userBgamesModel, userBgamesController, levelUpController);
+            this.Helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+            UpdateLayout();
+
+        }
+
+        public void UpdateLayout() {
             // Configuración del tamaño y posición del menú
-            int menuWidth = 640, menuHeight = 480;
+            int menuWidth = Game1.viewport.Width / 3; // 1/3 del ancho de la ventana
+            int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
+
             positionMenuBg = new Rectangle(
                 (Game1.viewport.Width - menuWidth) / 2,
                 (Game1.viewport.Height - menuHeight) / 2,
@@ -75,34 +92,48 @@ namespace bGamesPointsMod.Controllers
             buttonLevelUp = new ClickableComponent(
                 new Rectangle(buttonBuff.bounds.X + buttonWidth + buttonSpacing,
                               buttonY, buttonWidth, buttonHeight), "Level Up");
-
-            // Instancia de los menús
-            menuBuff = new MenuBuffView(helper, buffController, monitor, userBgamesModel, userBgamesController);
-            menuSkills = new MenuSkillsView(helper, monitor, userBgamesModel, userBgamesController, levelUpController);
+            closeButton = new ClickableComponent(
+                new Rectangle(positionMenuBg.X + menuWidth - 40,
+                positionMenuBg.Y,
+                30,
+                30
+                ), "X");
+            // Actualizar las dimensiones guardadas
         }
 
-        public void ToggleMenu()
-        {
-            isMenuVisible = !isMenuVisible;            
+        public void ToggleMenu() {
+            isMenuVisible = !isMenuVisible;
+            Game1.activeClickableMenu = isMenuVisible ? this : null;
         }
 
         public void RenderMenu(SpriteBatch spriteBatch)
         {
-            if (isMenuVisible)
-            {
+            if (isMenuVisible) {
                 // Dibujar el fondo del menú
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
 
                 // Dibujar botones inferiores
                 DrawButton(spriteBatch, buttonBuff.bounds, buttonBuff.name, Color.Khaki, Color.White, Color.Brown);
                 DrawButton(spriteBatch, buttonLevelUp.bounds, buttonLevelUp.name, Color.Khaki, Color.White, Color.Brown);
-                
+                DrawCloseButton(spriteBatch);
+                drawMouse(spriteBatch);
 
                 // Dibujar información del usuario
-                if (userBgamesModel != null)
-                {
+                if (userBgamesModel != null) {
                     string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
                     spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(positionMenuBg.X + 20, positionMenuBg.Y + 20), Color.Black);
+                }
+                if (userBgamesModel.Points != null) {
+                    string userPointsInfo = "";
+                    foreach (var points in userBgamesModel.Points)
+                    {
+                        userPointsInfo += $"{points.Name}: {points.Data}\n";
+                    }
+                    // Coordenadas para dibujar el texto en la parte superior del menú
+                    float textX = positionMenuBg.X + 400; // Margen desde la izquierda
+                    float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
+
+                    spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
                 }
 
                 // Renderizar menús Buff y Skills si están visibles
@@ -119,8 +150,7 @@ namespace bGamesPointsMod.Controllers
                 menuSkills.RenderMenu(spriteBatch);
         }
 
-        public void DrawButton(SpriteBatch spriteBatch, Rectangle bounds, string text, Color buttonColor, Color borderColor, Color textColor)
-        {
+        public void DrawButton(SpriteBatch spriteBatch, Rectangle bounds, string text, Color buttonColor, Color borderColor, Color textColor) {
             int borderThickness = 2;
 
             // Dibujar el fondo del botón
@@ -141,46 +171,72 @@ namespace bGamesPointsMod.Controllers
             Utility.drawTextWithShadow(spriteBatch, text, Game1.smallFont, textPosition, textColor);
         }
 
-        public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController, LevelUpController levelUpController)
-        {
+        public void OnOpenMenuBuff(ButtonPressedEventArgs e, BuffController buffController, LevelUpController levelUpController) {
             // Verificar si el botón de Buffs fue clickeado
-            if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
+            if (e.Button == SButton.MouseLeft && buttonBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón de Buffs clickeado.", LogLevel.Info);
                 menuBuff.ToggleMenu();
             }
             // Verificar si el botón de Level Up fue clickeado
-            else if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
+            else if (e.Button == SButton.MouseLeft && buttonLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón de Level up clickeado.", LogLevel.Info);
                 menuSkills.ToggleMenu(); // Alternar la visibilidad del menú de habilidades
             }
-            else
-            {
+            else {
                 // Manejar clics en los botones del menú Buff
                 menuBuff.HandleButtonClick(e, buffController);
             }
-
             // Manejar clics en los botones del menú Skills
-            if (menuSkills.IsMenuVisible) // Asegurarse de que el menú esté visible
-            {
+            if (menuSkills.IsMenuVisible)
+            { // Asegurarse de que el menú esté visible
                 menuSkills.HandleButtonClick(e, levelUpController);
+            }
+            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
+            {
+                Monitor.Log("Cerrar menú.", LogLevel.Info);
+                Game1.activeClickableMenu = null; // Cierra el menú
+                ToggleMenu(); // Cierra el menu
             }
         }
 
-        public void RenderMenus(SpriteBatch spriteBatch)
-        {
+        public void RenderMenus(SpriteBatch spriteBatch) {
             // Renderizar el menú de Buffs si está visible
-            if (menuBuff.IsMenuVisible)
-            {
+            if (menuBuff.IsMenuVisible) {
                 menuBuff.RenderMenu(spriteBatch);
             }
 
             // Renderizar el menú de Skills si está visible
-            if (menuSkills.IsMenuVisible)
-            {
+            if (menuSkills.IsMenuVisible) {
                 menuSkills.RenderMenu(spriteBatch);
             }
+        }
+
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e) {
+            // Detectar cambio en el tamaño de la ventana
+            if (Game1.viewport.Width != lastViewportWidth || Game1.viewport.Height != lastViewportHeight) {
+                UpdateLayout();
+            }
+        }
+
+        private void DrawCloseButton(SpriteBatch spriteBatch) {
+            int borderThickness = 2;
+
+            // Dibujar el fondo del botón
+            spriteBatch.Draw(Game1.staminaRect, closeButton.bounds, Color.Red);
+
+            // Dibujar bordes del botón
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y, closeButton.bounds.Width, borderThickness), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y, borderThickness, closeButton.bounds.Height), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X + closeButton.bounds.Width - borderThickness, closeButton.bounds.Y, borderThickness, closeButton.bounds.Height), Color.White);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(closeButton.bounds.X, closeButton.bounds.Y + closeButton.bounds.Height - borderThickness, closeButton.bounds.Width, borderThickness), Color.White);
+
+            // Dibujar el texto "X"
+            Vector2 textSize = Game1.smallFont.MeasureString(closeButton.name);
+            Vector2 textPosition = new Vector2(
+                closeButton.bounds.X + (closeButton.bounds.Width - textSize.X) / 2,
+                closeButton.bounds.Y + (closeButton.bounds.Height - textSize.Y) / 2
+            );
+            Utility.drawTextWithShadow(spriteBatch, closeButton.name, Game1.smallFont, textPosition, Color.White);
         }
     }
 }

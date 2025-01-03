@@ -43,8 +43,10 @@ namespace bGamesPointsMod.Controllers
 
         // Control para mostrar/ocultar el menú
         private bool isMenuVisible = false;
-
         public bool IsMenuVisible => isMenuVisible;
+
+        // Control de buff
+        private int isBuffActive = 0;
 
         private int lastViewportWidth;
         private int lastViewportHeight;
@@ -180,76 +182,65 @@ namespace bGamesPointsMod.Controllers
             Utility.drawTextWithShadow(spriteBatch, closeButton.name, Game1.smallFont, textPosition, Color.White);
         }
 
-        public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController)
-        {
+        public void HandleButtonClick(ButtonPressedEventArgs e, BuffController buffController){
             // Si el menú no está visible, ignorar los clics
-            if (!isMenuVisible)
-            {
+            if (!isMenuVisible){
                 return;
             }
-
-            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
+            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())){
                 Monitor.Log("Cerrar menú.", LogLevel.Info);
                 Game1.activeClickableMenu = null; // Cierra el menú
                 ToggleMenu(); // Cierra el menu
             }
-
-
-            if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                //if (userBgamesController.SpendPoints(10,0) == 1)
-                //{
+            if (isBuffActive == 0) {
+                this.Monitor.Log($"Hay un buff activo.{isBuffActive}", LogLevel.Debug);
+                if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
                     buffController.BuffSpeed();
-                //}
-                //else {this.Monitor.Log("No tienes los puntos necesarios para activar este buff.", LogLevel.Info);}
-            }
-            if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
-                buffController.BuffMining();
-            }
-            if (e.Button == SButton.MouseLeft && foragingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Foraning Buff clickeado.", LogLevel.Info);
-                buffController.BuffForaging();
-            }
-            if (e.Button == SButton.MouseLeft && reducedEnergyBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Reduced Energy Buff clickeado.", LogLevel.Info);
-                buffController.ReducedEnergyBuff();
-                this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedReducedEnergyBuff;
-            }
-            if (e.Button == SButton.MouseLeft && luckLevelBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Luck Level Buff clickeado.", LogLevel.Info);
-                buffController.BuffLuckLevel();
-            }
-            if (e.Button == SButton.MouseLeft && fishingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Fishing Buff clickeado.", LogLevel.Info);
-                buffController.BuffFishing();
-            }
-            if (e.Button == SButton.MouseLeft && farmingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón de Farming Buff clickeado.", LogLevel.Info);
-                buffController.BuffFarming();
+                }
+                if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
+                    buffController.BuffMining();
+                }
+                if (e.Button == SButton.MouseLeft && foragingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Foraning Buff clickeado.", LogLevel.Info);
+                    buffController.BuffForaging();
+                }
+                if (e.Button == SButton.MouseLeft && reducedEnergyBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Reduced Energy Buff clickeado.", LogLevel.Info);
+                    buffController.ReducedEnergyBuff();
+                    this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedReducedEnergyBuff;
+                }
+                if (e.Button == SButton.MouseLeft && luckLevelBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Luck Level Buff clickeado.", LogLevel.Info);
+                    buffController.BuffLuckLevel();
+                }
+                if (e.Button == SButton.MouseLeft && fishingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Fishing Buff clickeado.", LogLevel.Info);
+                    buffController.BuffFishing();
+                }
+                if (e.Button == SButton.MouseLeft && farmingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Farming Buff clickeado.", LogLevel.Info);
+                    buffController.BuffFarming();
+                }
+            } else {
+                Game1.addHUDMessage(new HUDMessage("Hay un buff activado!", 2));
+                this.Monitor.Log("No se puede activar un buff", LogLevel.Info);
             }
         }
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            // Verificar si el buff está activo llamando a la propiedad IsActive
-            if (buffController.IsActiveMiningBuff || 
-                buffController.IsActiveSpeedBuff || 
-                buffController.IsActiveForaningBuff ||
-                buffController.IsActiveReducedEnergyBuff ||
-                buffController.IsActiveLuckLevelBuff ||
-                buffController.IsActiveFishingBuff ||
-                buffController.IsActiveFarmingBuff)
-            {
-                this.Monitor.Log("Hay un buff activo.", LogLevel.Debug);
-            }
+            // Verificar si hay algún buff activo
+            bool anyBuffActive = buffController.IsActiveMiningBuff ||
+                                 buffController.IsActiveSpeedBuff ||
+                                 buffController.IsActiveForaningBuff ||
+                                 buffController.IsActiveReducedEnergyBuff ||
+                                 buffController.IsActiveLuckLevelBuff ||
+                                 buffController.IsActiveFishingBuff ||
+                                 buffController.IsActiveFarmingBuff;
+
+            // Actualizar el estado de isBuffActive solo si hay un cambio
+            isBuffActive = anyBuffActive ? 1 : 0;
 
             // Detectar cambio en el tamaño de la ventana
             if (Game1.viewport.Width != lastViewportWidth || Game1.viewport.Height != lastViewportHeight)
@@ -257,6 +248,7 @@ namespace bGamesPointsMod.Controllers
                 UpdateLayout();
             }
         }
+
         private void OnButtonPressedMenuBuff(object sender, ButtonPressedEventArgs e)
         {
             if (e.Button == SButton.F3)
