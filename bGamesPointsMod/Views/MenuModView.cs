@@ -71,7 +71,7 @@ namespace bGamesPointsMod.Controllers
 
         public void UpdateLayout() {
             // Configuración del tamaño y posición del menú
-            int menuWidth = Game1.viewport.Width / 3; // 1/3 del ancho de la ventana
+            int menuWidth = Game1.viewport.Width / 2; // 1/3 del ancho de la ventana
             int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
 
             positionMenuBg = new Rectangle(
@@ -113,17 +113,19 @@ namespace bGamesPointsMod.Controllers
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
 
                 // Dibujar botones inferiores
-                DrawButton(spriteBatch, buttonBuff.bounds, buttonBuff.name, Color.Khaki, Color.White, Color.Brown);
-                DrawButton(spriteBatch, buttonLevelUp.bounds, buttonLevelUp.name, Color.Khaki, Color.White, Color.Brown);
+                DrawButton(spriteBatch, buttonBuff.bounds, buttonBuff.name, Color.Brown, Color.Khaki, Color.White);
+                DrawButton(spriteBatch, buttonLevelUp.bounds, buttonLevelUp.name, Color.Brown, Color.Khaki, Color.White);
                 DrawCloseButton(spriteBatch);
                 drawMouse(spriteBatch);
 
                 // Dibujar información del usuario
-                if (userBgamesModel != null) {
+                if (userBgamesModel != null)
+                {
                     string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
                     spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(positionMenuBg.X + 20, positionMenuBg.Y + 20), Color.Black);
                 }
-                if (userBgamesModel.Points != null) {
+                if (userBgamesModel.Points != null)
+                {
                     string userPointsInfo = "";
                     foreach (var points in userBgamesModel.Points)
                     {
@@ -132,10 +134,8 @@ namespace bGamesPointsMod.Controllers
                     // Coordenadas para dibujar el texto en la parte superior del menú
                     float textX = positionMenuBg.X + 400; // Margen desde la izquierda
                     float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
-
-                    spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(textX, textY), Color.Black);
+                    spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(positionMenuBg.X + Game1.viewport.Width / 3+40, positionMenuBg.Y + 20), Color.Black);
                 }
-
                 // Renderizar menús Buff y Skills si están visibles
                 if (menuBuff.IsMenuVisible) menuBuff.RenderMenu(spriteBatch);
                 if (menuSkills.IsMenuVisible) menuSkills.RenderMenu(spriteBatch);
@@ -152,7 +152,6 @@ namespace bGamesPointsMod.Controllers
 
         public void DrawButton(SpriteBatch spriteBatch, Rectangle bounds, string text, Color buttonColor, Color borderColor, Color textColor) {
             int borderThickness = 2;
-
             // Dibujar el fondo del botón
             spriteBatch.Draw(Game1.staminaRect, bounds, buttonColor);
 
@@ -187,12 +186,10 @@ namespace bGamesPointsMod.Controllers
                 menuBuff.HandleButtonClick(e, buffController);
             }
             // Manejar clics en los botones del menú Skills
-            if (menuSkills.IsMenuVisible)
-            { // Asegurarse de que el menú esté visible
+            if (menuSkills.IsMenuVisible) { // Asegurarse de que el menú esté visible
                 menuSkills.HandleButtonClick(e, levelUpController);
             }
-            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
+            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 Monitor.Log("Cerrar menú.", LogLevel.Info);
                 Game1.activeClickableMenu = null; // Cierra el menú
                 ToggleMenu(); // Cierra el menu

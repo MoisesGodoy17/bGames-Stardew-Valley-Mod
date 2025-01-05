@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json; // Necesitarás instalar este paquete para trabajar con JSON.
 using bGamesPointsMod.Models;
+using System.Text;
 
 namespace bGamesPointsMod.Controllers
 {
@@ -155,21 +156,65 @@ namespace bGamesPointsMod.Controllers
             return UserBgamesModel;
         }
 
-        public int SpendPoints(int spendPoints, int id_attribute) {
+        // funcion para gastar puntos en las habilidades
+        public int SpendPoints(int spendPoints) {//Cada habilidad va a costar 5 puntos bGames o mas
+            int i = spendPoints;
             if (UserBgamesModel.Points != null) {
-                foreach (var points in UserBgamesModel.Points) {
-                    if (id_attribute == Int32.Parse(points.Id_attributes) 
-                        && spendPoints <= Int32.Parse(points.Data)) {
-                        points.Data = (Int32.Parse(points.Data) - spendPoints).ToString();
+                while (i > 0) {
+                    foreach (var points in UserBgamesModel.Points) { // recorre el puntaje de cada tributo
+                        if (0 < Int32.Parse(points.Data) && spendPoints > 0) {
+                            spendPoints--; //le resto uno a los puntos a gastar
+                            points.Data = (Int32.Parse(points.Data) - 1).ToString(); // tambien resto uno a los puntos ctuales
+                        }
+                    }
+                    if (spendPoints == 0) {
                         return 1;
                     }
-                    if (spendPoints >= Int32.Parse(points.Data)) {
-                        return 0;
-                    }
+                    i--;
+                }
+                if (spendPoints > 0) {
+                    return 0; // si no se gasto todo lo que se queria gastar se sale de la funcion
                 }
             }
             return 0;
         }
+
+        public async Task SavePointsBgames() {
+            try{
+                string userId = UserBgamesModel.Id_players;
+
+                foreach (var points in UserBgamesModel.Points) {
+                    // Crear el cuerpo del JSON
+                    var payload = new {
+                        id_player = userId,
+                        id_attributes = points.Id_attributes,
+                        new_data = points.Data
+                    };
+
+                    // Serializar el JSON
+                    string jsonContent = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+
+                    // Configurar la solicitud HTTP
+                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json")) {
+                        // Realizar la solicitud PUT
+                        HttpResponseMessage response = await httpClient.PutAsync("http://localhost:3002/player_attributes_single", content);
+
+                        // Verificar la respuesta
+                        if (response.IsSuccessStatusCode) {
+                            Monitor.Log($"Puntos actualizados correctamente: {points.Name} ({points.Data})", LogLevel.Info);
+                        }
+                        else {
+                            string error = await response.Content.ReadAsStringAsync();
+                            Monitor.Log($"Error al actualizar los puntos para {points.Name}: {error}", LogLevel.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) {
+                Monitor.Log($"Error al guardar los puntos: {ex.Message}", LogLevel.Error);
+            }
+        }
+
 
         public async Task<int> CheckConnectionBgames() {
             string apiUrl = $"http://localhost:3010/";

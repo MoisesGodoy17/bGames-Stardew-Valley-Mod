@@ -196,7 +196,14 @@ namespace bGamesPointsMod.Controllers
                 this.Monitor.Log($"Hay un buff activo.{isBuffActive}", LogLevel.Debug);
                 if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
-                    buffController.BuffSpeed();
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffSpeed();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    }
                 }
                 if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
