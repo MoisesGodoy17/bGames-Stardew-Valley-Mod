@@ -76,9 +76,14 @@ namespace bGamesPointsMod.Controllers
 
         public void UpdateLayout()
         {
-            int menuWidth = Game1.viewport.Width / 3; // 1/3 del ancho de la ventana
-            int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
+            // Tamaño fijo del menú y botones
+            int menuWidth = 500; // Ancho fijo del menú
+            int menuHeight = 550; // Alto fijo del menú
+            int buttonWidth = 170; // Ancho fijo de los botones
+            int buttonHeight = 60; // Alto fijo de los botones
+            int buttonSpacing = 55; // Espaciado entre botones
 
+            // Posición centrada del menú
             positionMenuBg = new Rectangle(
                 (Game1.viewport.Width - menuWidth) / 2,
                 (Game1.viewport.Height - menuHeight) / 2,
@@ -86,20 +91,24 @@ namespace bGamesPointsMod.Controllers
                 menuHeight
             );
 
-            int buttonWidth = menuWidth / 4;
-            int buttonHeight = menuHeight / 8;
-            int buttonSpacing = 10;
-            int buttonY = positionMenuBg.Y + 50;
+            // Coordenadas iniciales para los botones
+            int buttonStartX = positionMenuBg.X + 50; // Margen izquierdo del menú
+            int buttonStartY = positionMenuBg.Y + 50; // Margen superior del menú
 
-            // Definición de botones
-            speedBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY, buttonWidth, buttonHeight), "Speed Buff");
-            miningBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY, buttonWidth, buttonHeight), "Mining Buff");
-            foragingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 100, buttonWidth, buttonHeight), "Foraging Buff");
-            reducedEnergyBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY + 100, buttonWidth, buttonHeight), "Stamina Buff");
-            luckLevelBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 200, buttonWidth, buttonHeight), "Luck Buff");
-            fishingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 150 + buttonWidth + buttonSpacing, buttonY + 200, buttonWidth, buttonHeight), "Fishing Buff");
-            farmingBuff = new ClickableComponent(new Rectangle(positionMenuBg.X + 50, buttonY + 300, buttonWidth, buttonHeight), "Farming Buff");
-            closeButton = new ClickableComponent(new Rectangle(positionMenuBg.X + menuWidth - 40, positionMenuBg.Y, 30, 30), "X");
+            // Posición de cada botón
+            speedBuff = new ClickableComponent(new Rectangle(buttonStartX, buttonStartY, buttonWidth, buttonHeight), "Speed Buff");
+            miningBuff = new ClickableComponent(new Rectangle(buttonStartX + buttonWidth + buttonSpacing, buttonStartY, buttonWidth, buttonHeight), "Mining Buff");
+            foragingBuff = new ClickableComponent(new Rectangle(buttonStartX, buttonStartY + buttonHeight + buttonSpacing, buttonWidth, buttonHeight), "Foraging Buff");
+            reducedEnergyBuff = new ClickableComponent(new Rectangle(buttonStartX + buttonWidth + buttonSpacing, buttonStartY + buttonHeight + buttonSpacing, buttonWidth, buttonHeight), "Stamina Buff");
+            luckLevelBuff = new ClickableComponent(new Rectangle(buttonStartX, buttonStartY + 2 * (buttonHeight + buttonSpacing), buttonWidth, buttonHeight), "Luck Buff");
+            fishingBuff = new ClickableComponent(new Rectangle(buttonStartX + buttonWidth + buttonSpacing, buttonStartY + 2 * (buttonHeight + buttonSpacing), buttonWidth, buttonHeight), "Fishing Buff");
+            farmingBuff = new ClickableComponent(new Rectangle(buttonStartX, buttonStartY + 3 * (buttonHeight + buttonSpacing), buttonWidth, buttonHeight), "Farming Buff");
+
+            // Botón de cierre
+            closeButton = new ClickableComponent(
+                new Rectangle(positionMenuBg.Right - 30, positionMenuBg.Top + 10, 30, 30),
+                "X"
+            );
 
             // Actualizar las dimensiones guardadas
             lastViewportWidth = Game1.viewport.Width;
@@ -135,10 +144,10 @@ namespace bGamesPointsMod.Controllers
             int borderThickness = 2;
 
             // Dibujar fondo del botón
-            spriteBatch.Draw(Game1.staminaRect, button.bounds, Color.Khaki);
+            spriteBatch.Draw(Game1.staminaRect, button.bounds, Color.Brown);
 
             // Dibujar bordes
-            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, button.bounds.Width, borderThickness), Color.Brown);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, button.bounds.Width, borderThickness), Color.Khaki);
             spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
             spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X + button.bounds.Width - borderThickness, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
             spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y + button.bounds.Height - borderThickness, button.bounds.Width, borderThickness), Color.Brown);
@@ -149,7 +158,7 @@ namespace bGamesPointsMod.Controllers
                 button.bounds.X + (button.bounds.Width - textSize.X) / 2,
                 button.bounds.Y + (button.bounds.Height - textSize.Y) / 2
             );
-            Utility.drawTextWithShadow(spriteBatch, button.name, Game1.smallFont, textPosition, Color.Brown);
+            Utility.drawTextWithShadow(spriteBatch, button.name, Game1.smallFont, textPosition, Color.White);
 
             // Dibujar costo debajo
             Vector2 costSize = Game1.smallFont.MeasureString(cost);

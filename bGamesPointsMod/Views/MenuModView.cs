@@ -68,12 +68,12 @@ namespace bGamesPointsMod.Controllers
             UpdateLayout();
 
         }
-
         public void UpdateLayout() {
-            // Configuración del tamaño y posición del menú
-            int menuWidth = Game1.viewport.Width / 2; // 1/3 del ancho de la ventana
-            int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
+            // Tamaño fijo del menú
+            int menuWidth = 600; // Ancho fijo
+            int menuHeight = 400; // Alto fijo
 
+            // Posición centrada del menú
             positionMenuBg = new Rectangle(
                 (Game1.viewport.Width - menuWidth) / 2,
                 (Game1.viewport.Height - menuHeight) / 2,
@@ -81,25 +81,40 @@ namespace bGamesPointsMod.Controllers
                 menuHeight
             );
 
-            // Configuración de botones
-            int buttonWidth = 150, buttonHeight = 40, buttonSpacing = 10;
+            // Tamaño fijo de los botones
+            int buttonWidth = 150;
+            int buttonHeight = 40;
+            int buttonSpacing = 10;
+
+            // Posición dinámica de los botones
             int buttonY = positionMenuBg.Y + menuHeight - buttonHeight - buttonSpacing;
 
             buttonBuff = new ClickableComponent(
-                new Rectangle(positionMenuBg.X + (menuWidth - 2 * buttonWidth - buttonSpacing) / 2,
-                              buttonY, buttonWidth, buttonHeight), "Buff");
+                new Rectangle(
+                    positionMenuBg.X + (menuWidth - 2 * buttonWidth - buttonSpacing) / 2,
+                    buttonY,
+                    buttonWidth,
+                    buttonHeight
+                ), "Buff");
 
             buttonLevelUp = new ClickableComponent(
-                new Rectangle(buttonBuff.bounds.X + buttonWidth + buttonSpacing,
-                              buttonY, buttonWidth, buttonHeight), "Level Up");
+                new Rectangle(
+                    buttonBuff.bounds.X + buttonWidth + buttonSpacing,
+                    buttonY,
+                    buttonWidth,
+                    buttonHeight
+                ), "Level Up");
+
+            // Botón de cierre fijo en la esquina superior derecha del menú
             closeButton = new ClickableComponent(
-                new Rectangle(positionMenuBg.X + menuWidth - 40,
-                positionMenuBg.Y,
-                30,
-                30
+                new Rectangle(
+                    positionMenuBg.Right - 40, // Ajustado para estar al borde derecho del menú
+                    positionMenuBg.Top + 10,  // Espaciado desde la parte superior
+                    30,  // Ancho fijo
+                    30   // Alto fijo
                 ), "X");
-            // Actualizar las dimensiones guardadas
         }
+
 
         public void ToggleMenu() {
             isMenuVisible = !isMenuVisible;
@@ -122,7 +137,7 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesModel != null)
                 {
                     string userInfo = $"Name: {userBgamesModel.Name}\nEmail: {userBgamesModel.Email}\nAge: {userBgamesModel.Age}";
-                    spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(positionMenuBg.X + 20, positionMenuBg.Y + 20), Color.Black);
+                    spriteBatch.DrawString(Game1.smallFont, userInfo, new Vector2(positionMenuBg.X + 20, positionMenuBg.Y + 40), Color.Black);
                 }
                 if (userBgamesModel.Points != null)
                 {
@@ -134,7 +149,7 @@ namespace bGamesPointsMod.Controllers
                     // Coordenadas para dibujar el texto en la parte superior del menú
                     float textX = positionMenuBg.X + 400; // Margen desde la izquierda
                     float textY = positionMenuBg.Y + 20; // Margen desde la parte superior
-                    spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(positionMenuBg.X + Game1.viewport.Width / 3+40, positionMenuBg.Y + 20), Color.Black);
+                    spriteBatch.DrawString(Game1.smallFont, userPointsInfo, new Vector2(positionMenuBg.X + 400, positionMenuBg.Y + 40), Color.Black);
                 }
                 // Renderizar menús Buff y Skills si están visibles
                 if (menuBuff.IsMenuVisible) menuBuff.RenderMenu(spriteBatch);

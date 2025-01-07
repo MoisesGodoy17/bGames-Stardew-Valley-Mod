@@ -20,6 +20,9 @@ namespace bGamesPointsMod
         public PointsBgamesModel pointsBgamesModel;
         public LevelUpModel miningSkill;
         public LevelUpModel foraningSkill;
+        public LevelUpModel fishingSkill;
+        public LevelUpModel combatSkill;
+        public LevelUpModel luckSkill;
         int CheckConnection;
 
         // Controlador de Buffs
@@ -95,6 +98,9 @@ namespace bGamesPointsMod
             // Inicializar modelos de level up
             miningSkill = new LevelUpModel(100, "Mining");
             foraningSkill = new LevelUpModel(100, "Foraging");
+            fishingSkill = new LevelUpModel(100, "Fishing");
+            combatSkill = new LevelUpModel(100, "Combat");
+            luckSkill = new LevelUpModel(100, "Luck");
 
 
             // Mostrar boton en pantalla del menu
@@ -117,7 +123,7 @@ namespace bGamesPointsMod
             userController = new UserBgamesController(this.Monitor, helper, userBgamesModel, pointsBgamesModel);
 
             // Crear instancia de LevelUpController
-            levelUpController = new LevelUpController(this.Monitor, this.Helper, miningSkill, foraningSkill);
+            levelUpController = new LevelUpController(this.Monitor, this.Helper, miningSkill, foraningSkill, fishingSkill, combatSkill, luckSkill);
 
             // Crear instancia de Menu
             menu = new MenuModView(helper, buffController, Monitor, userBgamesModel, userController, levelUpController);

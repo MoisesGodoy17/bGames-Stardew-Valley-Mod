@@ -34,6 +34,9 @@ namespace bGamesPointsMod.Controllers
         // Botones inferiores
         private ClickableComponent miningLevelUp;
         private ClickableComponent foragingLevelUp;
+        private ClickableComponent fishingLevelUp;
+        private ClickableComponent combatLevelUp;
+        private ClickableComponent luckLevelUp;
         private ClickableComponent closeButton;
 
         // Control para mostrar/ocultar el menú
@@ -68,9 +71,11 @@ namespace bGamesPointsMod.Controllers
 
         public void UpdateLayout()
         {
-            int menuWidth = Game1.viewport.Width / 3; // 1/3 del ancho de la ventana
-            int menuHeight = Game1.viewport.Height / 2; // 1/2 de la altura de la ventana
+            // Tamaño fijo del menú y botones
+            int menuWidth = 500; // Ancho fijo del menú
+            int menuHeight = 550; // Alto fijo del menú
 
+            // Posición centrada del menú
             positionMenuBg = new Rectangle(
                 (Game1.viewport.Width - menuWidth) / 2,
                 (Game1.viewport.Height - menuHeight) / 2,
@@ -78,38 +83,76 @@ namespace bGamesPointsMod.Controllers
                 menuHeight
             );
 
-            int buttonWidth = menuWidth / 4;
-            int buttonHeight = menuHeight / 8;
-            int buttonSpacing = 10;
-            int buttonY = positionMenuBg.Y + 50;
+            // Tamaño fijo de los botones
+            int buttonWidth = 170; // Ancho fijo de los botones
+            int buttonHeight = 70; // Alto fijo de los botones
+            int buttonSpacing = 55; // Espaciado entre botones
+            int buttonY = positionMenuBg.Y + 40; // Margen superior de los botones respecto al menú
 
-            miningLevelUp = new ClickableComponent(new Rectangle(
-                    positionMenuBg.X + 70,
+            // Primera fila de botones
+            miningLevelUp = new ClickableComponent(
+                new Rectangle(
+                    positionMenuBg.X + 50, // Margen izquierdo del menú
                     buttonY,
                     buttonWidth,
                     buttonHeight
-                ), "Mining level up"
-
+                ), "Mining\nlevel up"
             );
+
             foragingLevelUp = new ClickableComponent(
                 new Rectangle(
-                    positionMenuBg.X + 70 + buttonWidth + buttonSpacing,
+                    positionMenuBg.X + 50 + buttonWidth + buttonSpacing, // Posición a la derecha del primer botón
                     buttonY,
                     buttonWidth,
                     buttonHeight
-                ), "Foraging level up"
+                ), "Foraging\nlevel up"
             );
 
+            // Segunda fila de botones
+            fishingLevelUp = new ClickableComponent(
+                new Rectangle(
+                    positionMenuBg.X + 50, // Margen izquierdo del menú
+                    buttonY + buttonHeight + buttonSpacing,
+                    buttonWidth,
+                    buttonHeight
+                ), "Fishing\nlevel up"
+            );
+
+            combatLevelUp = new ClickableComponent(
+                new Rectangle(
+                    positionMenuBg.X + 50 + buttonWidth + buttonSpacing, // Posición a la derecha del botón anterior
+                    buttonY + buttonHeight + buttonSpacing,
+                    buttonWidth,
+                    buttonHeight
+                ), "Combat\nlevel up"
+            );
+
+            // Tercera fila de botones
+            luckLevelUp = new ClickableComponent(
+                new Rectangle(
+                    positionMenuBg.X + 50, // Margen izquierdo del menú
+                    buttonY + 2 * (buttonHeight + buttonSpacing),
+                    buttonWidth,
+                    buttonHeight
+                ), "Luck\nlevel up"
+            );
+
+            // Botón de cierre
             closeButton = new ClickableComponent(
-                new Rectangle(positionMenuBg.X + menuWidth - 40, 
-                positionMenuBg.Y, 
-                30, 
-                30
-                ), "X");
+                new Rectangle(
+                    positionMenuBg.Right - 40, // Ajustado para estar al borde derecho del menú
+                    positionMenuBg.Top + 10,  // Espaciado desde la parte superior del menú
+                    30,  // Ancho fijo
+                    30   // Alto fijo
+                ), "X"
+            );
+
             // Actualizar las dimensiones guardadas
             lastViewportWidth = Game1.viewport.Width;
             lastViewportHeight = Game1.viewport.Height;
         }
+
+
 
         public void ToggleMenu()
         {
@@ -126,6 +169,9 @@ namespace bGamesPointsMod.Controllers
                 // Dibujar botones inferiores
                 DrawButtonWithCost(spriteBatch, miningLevelUp, "10 pts");
                 DrawButtonWithCost(spriteBatch, foragingLevelUp, "10 pts");
+                DrawButtonWithCost(spriteBatch, fishingLevelUp, "10 pts");
+                DrawButtonWithCost(spriteBatch, combatLevelUp, "10 pts");
+                DrawButtonWithCost(spriteBatch, luckLevelUp, "10 pts");
                 DrawCloseButton(spriteBatch);
                 drawMouse(spriteBatch);
             }
@@ -136,13 +182,13 @@ namespace bGamesPointsMod.Controllers
             int borderThickness = 2;
 
             // Dibujar fondo del botón
-            spriteBatch.Draw(Game1.staminaRect, button.bounds, Color.Khaki);
+            spriteBatch.Draw(Game1.staminaRect, button.bounds, Color.Brown);
 
             // Dibujar bordes
-            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, button.bounds.Width, borderThickness), Color.Brown);
-            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
-            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X + button.bounds.Width - borderThickness, button.bounds.Y, borderThickness, button.bounds.Height), Color.Brown);
-            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y + button.bounds.Height - borderThickness, button.bounds.Width, borderThickness), Color.Brown);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, button.bounds.Width, borderThickness), Color.Khaki);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y, borderThickness, button.bounds.Height), Color.Khaki);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X + button.bounds.Width - borderThickness, button.bounds.Y, borderThickness, button.bounds.Height), Color.Khaki);
+            spriteBatch.Draw(Game1.staminaRect, new Rectangle(button.bounds.X, button.bounds.Y + button.bounds.Height - borderThickness, button.bounds.Width, borderThickness), Color.Khaki);
 
             // Dibujar texto del botón
             Vector2 textSize = Game1.smallFont.MeasureString(button.name);
@@ -150,7 +196,7 @@ namespace bGamesPointsMod.Controllers
                 button.bounds.X + (button.bounds.Width - textSize.X) / 2,
                 button.bounds.Y + (button.bounds.Height - textSize.Y) / 2
             );
-            Utility.drawTextWithShadow(spriteBatch, button.name, Game1.smallFont, textPosition, Color.Brown);
+            Utility.drawTextWithShadow(spriteBatch, button.name, Game1.smallFont, textPosition, Color.White);
 
             // Dibujar costo debajo
             Vector2 costSize = Game1.smallFont.MeasureString(cost);
@@ -183,25 +229,32 @@ namespace bGamesPointsMod.Controllers
             Utility.drawTextWithShadow(spriteBatch, closeButton.name, Game1.smallFont, textPosition, Color.White);
         }
 
-        public void HandleButtonClick(ButtonPressedEventArgs e, LevelUpController levelUpController)
-        {
+        public void HandleButtonClick(ButtonPressedEventArgs e, LevelUpController levelUpController) {
             // Si el menú no está visible, ignorar los clics
-            if (!isMenuVisible)
-            {
+            if (!isMenuVisible) {
                 return;
             }
-            if (e.Button == SButton.MouseLeft && miningLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón miningLevelUp clickeado.", LogLevel.Info);
+            if (e.Button == SButton.MouseLeft && miningLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                this.Monitor.Log("Botón Mining levelUp clickeado.", LogLevel.Info);
                 levelUpController.SkillMining();
             }
-            else if (e.Button == SButton.MouseLeft && foragingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
-                this.Monitor.Log("Botón foragingLevelUp clickeado.", LogLevel.Info);
+            if (e.Button == SButton.MouseLeft && foragingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                this.Monitor.Log("Botón Foraging levelUp clickeado.", LogLevel.Info);
                 levelUpController.SkillForaging();
             }
-            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY()))
-            {
+            if (e.Button == SButton.MouseLeft && fishingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                this.Monitor.Log("Botón Fishing levelUp clickeado.", LogLevel.Info);
+                levelUpController.SkillFishing();
+            }
+            if (e.Button == SButton.MouseLeft && combatLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                this.Monitor.Log("Botón Combat levelUp clickeado.", LogLevel.Info);
+                levelUpController.SkillCombat();
+            }
+            if (e.Button == SButton.MouseLeft && luckLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                this.Monitor.Log("Botón Luck levelUp clickeado.", LogLevel.Info);
+                levelUpController.SkillLuck();
+            }
+            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 Monitor.Log("Cerrar menú.", LogLevel.Info);
                 Game1.activeClickableMenu = null; // Cierra el menú
                 ToggleMenu(); // Cierra el menu
