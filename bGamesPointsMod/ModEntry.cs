@@ -96,11 +96,11 @@ namespace bGamesPointsMod
                 {FarmingLevel = { 5 }});
 
             // Inicializar modelos de level up
-            miningSkill = new LevelUpModel(100, "Mining");
-            foraningSkill = new LevelUpModel(100, "Foraging");
-            fishingSkill = new LevelUpModel(100, "Fishing");
-            combatSkill = new LevelUpModel(100, "Combat");
-            luckSkill = new LevelUpModel(100, "Luck");
+            miningSkill = new LevelUpModel(50, "Mining");
+            foraningSkill = new LevelUpModel(50, "Foraging");
+            fishingSkill = new LevelUpModel(50, "Fishing");
+            combatSkill = new LevelUpModel(50, "Combat");
+            luckSkill = new LevelUpModel(50, "Luck");
 
 
             // Mostrar boton en pantalla del menu

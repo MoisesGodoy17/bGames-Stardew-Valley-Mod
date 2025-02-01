@@ -127,13 +127,13 @@ namespace bGamesPointsMod.Controllers
                 // Dibujar fondo del menú solo si está visible
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
                 // Dibujar botones con el costo debajo
-                DrawButtonWithCost(spriteBatch, speedBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, miningBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, foragingBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, reducedEnergyBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, luckLevelBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, fishingBuff, "10 pts");
-                DrawButtonWithCost(spriteBatch, farmingBuff, "10 pts");
+                DrawButtonWithCost(spriteBatch, speedBuff, "2 pts");
+                DrawButtonWithCost(spriteBatch, miningBuff, "5 pts");
+                DrawButtonWithCost(spriteBatch, foragingBuff, "5 pts");
+                DrawButtonWithCost(spriteBatch, reducedEnergyBuff, "7 pts");
+                DrawButtonWithCost(spriteBatch, luckLevelBuff, "5 pts");
+                DrawButtonWithCost(spriteBatch, fishingBuff, "5 pts");
+                DrawButtonWithCost(spriteBatch, farmingBuff, "5 pts");
                 DrawCloseButton(spriteBatch);
                 drawMouse(spriteBatch);
             }
@@ -195,51 +195,91 @@ namespace bGamesPointsMod.Controllers
             // Si el menú no está visible, ignorar los clics
             if (!isMenuVisible){
                 return;
-            }
-            if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())){
-                Monitor.Log("Cerrar menú.", LogLevel.Info);
-                Game1.activeClickableMenu = null; // Cierra el menú
-                ToggleMenu(); // Cierra el menu
+            } if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())){
+                   Monitor.Log("Cerrar menú.", LogLevel.Info);
+                   Game1.activeClickableMenu = null; // Cierra el menú
+                   ToggleMenu(); // Cierra el menu
             }
             if (isBuffActive == 0) {
                 this.Monitor.Log($"Hay un buff activo.{isBuffActive}", LogLevel.Debug);
                 if (e.Button == SButton.MouseLeft && speedBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Speed Buff clickeado.", LogLevel.Info);
-                    if (userBgamesController.SpendPoints(5) == 1) {
+                    if (userBgamesController.SpendPoints(2) == 1){
                         buffController.BuffSpeed();
                         userBgamesController.SavePointsBgames();
                         Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
-                    else {
+                }
+
+                if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffMining();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
+                    }
+                }
+
+                if (e.Button == SButton.MouseLeft && foragingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+                    this.Monitor.Log("Botón de Foraning Buff clickeado.", LogLevel.Info);
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffForaging();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
                         Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                     }
                 }
-                if (e.Button == SButton.MouseLeft && miningBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
-                    this.Monitor.Log("Botón de Stamin Buff clickeado.", LogLevel.Info);
-                    buffController.BuffMining();
-                }
-                if (e.Button == SButton.MouseLeft && foragingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
-                    this.Monitor.Log("Botón de Foraning Buff clickeado.", LogLevel.Info);
-                    buffController.BuffForaging();
-                }
+
                 if (e.Button == SButton.MouseLeft && reducedEnergyBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Reduced Energy Buff clickeado.", LogLevel.Info);
-                    buffController.ReducedEnergyBuff();
-                    this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedReducedEnergyBuff;
+                    if (userBgamesController.SpendPoints(7) == 1) {
+                        buffController.ReducedEnergyBuff();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                        this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedReducedEnergyBuff;
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    }
                 }
                 if (e.Button == SButton.MouseLeft && luckLevelBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Luck Level Buff clickeado.", LogLevel.Info);
-                    buffController.BuffLuckLevel();
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffLuckLevel();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    }
                 }
+
                 if (e.Button == SButton.MouseLeft && fishingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Fishing Buff clickeado.", LogLevel.Info);
-                    buffController.BuffFishing();
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffFishing();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    }
                 }
+
                 if (e.Button == SButton.MouseLeft && farmingBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                     this.Monitor.Log("Botón de Farming Buff clickeado.", LogLevel.Info);
-                    buffController.BuffFarming();
+                    if (userBgamesController.SpendPoints(5) == 1) {
+                        buffController.BuffFarming();
+                        userBgamesController.SavePointsBgames();
+                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    } else {
+                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    }
                 }
-            } else {
+            }
+            else {
                 Game1.addHUDMessage(new HUDMessage("Hay un buff activado!", 2));
                 this.Monitor.Log("No se puede activar un buff", LogLevel.Info);
             }

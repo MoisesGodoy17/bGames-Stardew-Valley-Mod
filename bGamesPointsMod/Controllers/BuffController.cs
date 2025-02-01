@@ -46,7 +46,7 @@ public class BuffController
                 displayName: "Speed foraning buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 300_000, // 5 minutos
                 effects: new BuffEffects()
                 {
                     Speed = { 5 }
@@ -61,7 +61,7 @@ public class BuffController
                 displayName: "Speed foraning buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 420_000, // 7 minutos
                 effects: new BuffEffects()
                 {
                     ForagingLevel = { 5 }
@@ -75,7 +75,7 @@ public class BuffController
                 displayName: "Speed mining buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 420_000, // 7 minutos
                 effects: new BuffEffects()
                 {
                     MiningLevel = { 5 }
@@ -89,7 +89,7 @@ public class BuffController
             displayName: "Speed mining buff",
             iconTexture: null,
             iconSheetIndex: 0,
-            duration: 10_000 // 10 segundos
+            duration: 420_000 // 7 minutos
         );
 
         Game1.player.applyBuff(reducedEnergyBuff);
@@ -103,7 +103,7 @@ public class BuffController
                 displayName: "Luck level up",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 480_000, // 7 minutos
                 effects: new BuffEffects()
                 {
                     LuckLevel = { 2 }
@@ -117,7 +117,7 @@ public class BuffController
                 displayName: "Speed Fishing buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 420_000, // 7 minutos
                 effects: new BuffEffects()
                 {
                     FishingLevel = { 5 }
@@ -131,7 +131,7 @@ public class BuffController
                 displayName: "Speed farming buff",
                 iconTexture: null,
                 iconSheetIndex: 0,
-                duration: 10_000, // 10 segundos
+                duration: 420_000, // 7 minutos
                 effects: new BuffEffects()
                 {
                     FarmingLevel = { 5 }

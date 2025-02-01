@@ -63,7 +63,7 @@ namespace bGamesPointsMod.Controllers
 
             // Instancia de los menús
             menuBuff = new MenuBuffView(helper, buffController, monitor, userBgamesModel, userBgamesController);
-            menuSkills = new MenuSkillsView(helper, monitor, userBgamesModel, userBgamesController, levelUpController);
+            menuSkills = new MenuSkillsView(helper, monitor, userBgamesModel, userBgamesController, levelUpController, buffController);
             this.Helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
             UpdateLayout();
 

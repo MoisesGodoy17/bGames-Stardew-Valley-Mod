@@ -163,7 +163,7 @@ namespace bGamesPointsMod.Controllers
                 while (i > 0) {
                     foreach (var points in UserBgamesModel.Points) { // recorre el puntaje de cada tributo
                         if (0 < Int32.Parse(points.Data) && spendPoints > 0) {
-                            spendPoints--; //le resto uno a los puntos a gastar
+                            spendPoints--; //le se resta uno a los puntos a gastar
                             points.Data = (Int32.Parse(points.Data) - 1).ToString(); // tambien resto uno a los puntos ctuales
                         }
                     }

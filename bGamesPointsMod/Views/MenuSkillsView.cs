@@ -30,13 +30,14 @@ namespace bGamesPointsMod.Controllers
         // Controller del level up y usuario
         public UserBgamesController userBgamesController;
         public LevelUpController levelUpController;
+        public BuffController buffController;
 
         // Botones inferiores
         private ClickableComponent miningLevelUp;
         private ClickableComponent foragingLevelUp;
         private ClickableComponent fishingLevelUp;
         private ClickableComponent combatLevelUp;
-        private ClickableComponent luckLevelUp;
+        private ClickableComponent farmingLevelUp;
         private ClickableComponent closeButton;
 
         // Control para mostrar/ocultar el menú
@@ -52,13 +53,15 @@ namespace bGamesPointsMod.Controllers
         IMonitor monitor,
         UserBgamesModel userBgamesModel,
         UserBgamesController userBgamesController,
-        LevelUpController levelUpController)
+        LevelUpController levelUpController,
+        BuffController buffController)
         {
             // Inicializar Buffs y Helper
             this.Helper = helper ?? throw new ArgumentNullException(nameof(helper));
             this.Monitor = monitor;
             this.userBgamesModel = userBgamesModel;
             this.userBgamesController = userBgamesController;
+            this.buffController = buffController;
             this.levelUpController = levelUpController ?? throw new ArgumentNullException(nameof(levelUpController));
 
             menuBg = helper.ModContent.Load<Texture2D>("assets/menubg.png");
@@ -128,13 +131,13 @@ namespace bGamesPointsMod.Controllers
             );
 
             // Tercera fila de botones
-            luckLevelUp = new ClickableComponent(
+            farmingLevelUp = new ClickableComponent(
                 new Rectangle(
                     positionMenuBg.X + 50, // Margen izquierdo del menú
                     buttonY + 2 * (buttonHeight + buttonSpacing),
                     buttonWidth,
                     buttonHeight
-                ), "Luck\nlevel up"
+                ), "Farming\nlevel up"
             );
 
             // Botón de cierre
@@ -154,31 +157,27 @@ namespace bGamesPointsMod.Controllers
 
 
 
-        public void ToggleMenu()
-        {
+        public void ToggleMenu() {
             isMenuVisible = !isMenuVisible;
             Game1.activeClickableMenu = isMenuVisible ? this : null;
         }
-        public void RenderMenu(SpriteBatch spriteBatch)
-        {
-            if (isMenuVisible)
-            {
+        public void RenderMenu(SpriteBatch spriteBatch) {
+            if (isMenuVisible) {
                 // Dibujar fondo del menú solo si está visible
                 spriteBatch.Draw(menuBg, positionMenuBg, Color.White);
 
                 // Dibujar botones inferiores
-                DrawButtonWithCost(spriteBatch, miningLevelUp, "10 pts");
-                DrawButtonWithCost(spriteBatch, foragingLevelUp, "10 pts");
-                DrawButtonWithCost(spriteBatch, fishingLevelUp, "10 pts");
-                DrawButtonWithCost(spriteBatch, combatLevelUp, "10 pts");
-                DrawButtonWithCost(spriteBatch, luckLevelUp, "10 pts");
+                DrawButtonWithCost(spriteBatch, miningLevelUp, "2 pts");
+                DrawButtonWithCost(spriteBatch, foragingLevelUp, "2 pts");
+                DrawButtonWithCost(spriteBatch, fishingLevelUp, "2 pts");
+                DrawButtonWithCost(spriteBatch, combatLevelUp, "2 pts");
+                DrawButtonWithCost(spriteBatch, farmingLevelUp, "2 pts");
                 DrawCloseButton(spriteBatch);
                 drawMouse(spriteBatch);
             }
         }
 
-        private void DrawButtonWithCost(SpriteBatch spriteBatch, ClickableComponent button, string cost)
-        {
+        private void DrawButtonWithCost(SpriteBatch spriteBatch, ClickableComponent button, string cost) {
             int borderThickness = 2;
 
             // Dibujar fondo del botón
@@ -207,8 +206,7 @@ namespace bGamesPointsMod.Controllers
             Utility.drawTextWithShadow(spriteBatch, cost, Game1.smallFont, costPosition, Color.Black);
         }
 
-        private void DrawCloseButton(SpriteBatch spriteBatch)
-        {
+        private void DrawCloseButton(SpriteBatch spriteBatch) {
             int borderThickness = 2;
 
             // Dibujar el fondo del botón
@@ -236,23 +234,53 @@ namespace bGamesPointsMod.Controllers
             }
             if (e.Button == SButton.MouseLeft && miningLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón Mining levelUp clickeado.", LogLevel.Info);
-                levelUpController.SkillMining();
+                if (userBgamesController.SpendPoints(2) == 1){
+                    levelUpController.SkillMining();
+                    userBgamesController.SavePointsBgames();
+                    Game1.addHUDMessage(new HUDMessage("Atributo de Mineria aumentada!", 2));
+                } else {
+                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                }
             }
             if (e.Button == SButton.MouseLeft && foragingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón Foraging levelUp clickeado.", LogLevel.Info);
-                levelUpController.SkillForaging();
+                if (userBgamesController.SpendPoints(2) == 1) {
+                    levelUpController.SkillForaging();
+                    userBgamesController.SavePointsBgames();
+                    Game1.addHUDMessage(new HUDMessage("Atributo de Recoleccion aumentada!", 2));
+                } else {
+                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                }  
             }
             if (e.Button == SButton.MouseLeft && fishingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón Fishing levelUp clickeado.", LogLevel.Info);
-                levelUpController.SkillFishing();
+                if (userBgamesController.SpendPoints(2) == 1) {
+                    levelUpController.SkillFishing();
+                    userBgamesController.SavePointsBgames();
+                    Game1.addHUDMessage(new HUDMessage("Atributo de Pesca aumentada!", 2));
+                } else {
+                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                }
             }
             if (e.Button == SButton.MouseLeft && combatLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón Combat levelUp clickeado.", LogLevel.Info);
-                levelUpController.SkillCombat();
+                if (userBgamesController.SpendPoints(2) == 1){
+                    levelUpController.SkillCombat();
+                    userBgamesController.SavePointsBgames();
+                    Game1.addHUDMessage(new HUDMessage("Atributo de Combate aumentado!", 2));
+                } else {
+                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                }
             }
-            if (e.Button == SButton.MouseLeft && luckLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
+            if (e.Button == SButton.MouseLeft && farmingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 this.Monitor.Log("Botón Luck levelUp clickeado.", LogLevel.Info);
-                levelUpController.SkillLuck();
+                if (userBgamesController.SpendPoints(2) == 1) {
+                    levelUpController.SkillFarming();
+                    userBgamesController.SavePointsBgames();
+                    Game1.addHUDMessage(new HUDMessage("Atributo de Agricultura aumentado!", 2));
+                } else {
+                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                }
             }
             if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
                 Monitor.Log("Cerrar menú.", LogLevel.Info);
@@ -261,18 +289,15 @@ namespace bGamesPointsMod.Controllers
             }
         }
 
-        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e) {
             // Detectar cambio en el tamaño de la ventana
             if (Game1.viewport.Width != lastViewportWidth || Game1.viewport.Height != lastViewportHeight){
                 UpdateLayout();
             }
         }
 
-        private void OnButtonPressedMenuSkill(object sender, ButtonPressedEventArgs e)
-        {
-            if (e.Button == SButton.F2)
-            {
+        private void OnButtonPressedMenuSkill(object sender, ButtonPressedEventArgs e) {
+            if (e.Button == SButton.F2) {
                 ToggleMenu();
             }
         }
