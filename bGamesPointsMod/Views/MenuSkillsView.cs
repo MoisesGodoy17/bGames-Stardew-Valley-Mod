@@ -237,9 +237,11 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesController.SpendPoints(2) == 1){
                     levelUpController.SkillMining();
                     userBgamesController.SavePointsBgames();
-                    Game1.addHUDMessage(new HUDMessage("Atributo de Mineria aumentada!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Mining attribute increased!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Atributo de Mineria aumentada!", 2));
                 } else {
-                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                 }
             }
             if (e.Button == SButton.MouseLeft && foragingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
@@ -247,8 +249,10 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesController.SpendPoints(2) == 1) {
                     levelUpController.SkillForaging();
                     userBgamesController.SavePointsBgames();
-                    Game1.addHUDMessage(new HUDMessage("Atributo de Recoleccion aumentada!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Foraging attribute increased!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Atributo de Recoleccion aumentada!", 2));
                 } else {
+                    //Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
                     Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                 }  
             }
@@ -257,9 +261,11 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesController.SpendPoints(2) == 1) {
                     levelUpController.SkillFishing();
                     userBgamesController.SavePointsBgames();
-                    Game1.addHUDMessage(new HUDMessage("Atributo de Pesca aumentada!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Fishing attribute increased!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Atributo de Pesca aumentada!", 2));
                 } else {
-                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                 }
             }
             if (e.Button == SButton.MouseLeft && combatLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
@@ -267,9 +273,11 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesController.SpendPoints(2) == 1){
                     levelUpController.SkillCombat();
                     userBgamesController.SavePointsBgames();
-                    Game1.addHUDMessage(new HUDMessage("Atributo de Combate aumentado!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Combat attribute increased!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Atributo de Combate aumentado!", 2));
                 } else {
-                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                 }
             }
             if (e.Button == SButton.MouseLeft && farmingLevelUp.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
@@ -277,9 +285,11 @@ namespace bGamesPointsMod.Controllers
                 if (userBgamesController.SpendPoints(2) == 1) {
                     levelUpController.SkillFarming();
                     userBgamesController.SavePointsBgames();
-                    Game1.addHUDMessage(new HUDMessage("Atributo de Agricultura aumentado!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Farming attribute increased!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Atributo de Agricultura aumentado!", 2));
                 } else {
-                    Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                    Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                 }
             }
             if (e.Button == SButton.MouseLeft && closeButton.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {

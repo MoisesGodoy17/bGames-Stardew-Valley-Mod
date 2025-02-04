@@ -181,8 +181,11 @@ namespace bGamesPointsMod
                 }
                 else {
                     this.Monitor.Log("Sin conexion con bGames!", LogLevel.Info);
-                    Game1.addHUDMessage(new HUDMessage("Sin conexion con bGames!", 2));
-                    Game1.addHUDMessage(new HUDMessage("Inicia los servicios de bGames para continuar!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Sin conexion con bGames!", 2));
+                    //Game1.addHUDMessage(new HUDMessage("Inicia los servicios de bGames para continuar!", 2));
+                    Game1.addHUDMessage(new HUDMessage("No connection with bGames!", 2));
+                    Game1.addHUDMessage(new HUDMessage("Start the bGames services to continue!", 2));
+
                 }
             }
             else {

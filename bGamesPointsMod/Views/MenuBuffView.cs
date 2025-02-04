@@ -207,9 +207,11 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(2) == 1){
                         buffController.BuffSpeed();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
                     } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
                 }
 
@@ -218,9 +220,12 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(5) == 1) {
                         buffController.BuffMining();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
-                    } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
                 }
 
@@ -229,9 +234,12 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(5) == 1) {
                         buffController.BuffForaging();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
-                    } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
                 }
 
@@ -240,10 +248,12 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(7) == 1) {
                         buffController.ReducedEnergyBuff();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
                         this.Helper.Events.GameLoop.UpdateTicked += buffController.OnUpdateTickedReducedEnergyBuff;
                     } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
                 }
                 if (e.Button == SButton.MouseLeft && luckLevelBuff.bounds.Contains(Game1.getMouseX(), Game1.getMouseY())) {
@@ -251,9 +261,12 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(5) == 1) {
                         buffController.BuffLuckLevel();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
-                    } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2)); 
                     }
                 }
 
@@ -262,9 +275,12 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(5) == 1) {
                         buffController.BuffFishing();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
-                    } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                     }
                 }
 
@@ -273,14 +289,18 @@ namespace bGamesPointsMod.Controllers
                     if (userBgamesController.SpendPoints(5) == 1) {
                         buffController.BuffFarming();
                         userBgamesController.SavePointsBgames();
-                        Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
-                    } else {
-                        Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
+                        Game1.addHUDMessage(new HUDMessage("You have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("Si tiene los puntos necesarios!", 2));
+                    }
+                    else {
+                        Game1.addHUDMessage(new HUDMessage("You don't have enough points!", 2));
+                        //Game1.addHUDMessage(new HUDMessage("No tiene los puntos necesarios!", 2));
                     }
                 }
             }
             else {
-                Game1.addHUDMessage(new HUDMessage("Hay un buff activado!", 2));
+               // Game1.addHUDMessage(new HUDMessage("Hay un buff activado!", 2));
+                Game1.addHUDMessage(new HUDMessage("There is an active buff!", 2));
                 this.Monitor.Log("No se puede activar un buff", LogLevel.Info);
             }
         }

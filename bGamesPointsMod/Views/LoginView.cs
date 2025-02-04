@@ -160,10 +160,12 @@ namespace bGamesPointsMod.Views
 
             if (loginResult == 1) {
                 userController.SaveUserBgames(email);
-                Game1.addHUDMessage(new HUDMessage("Inicio de sesion exitoso!", 2));
+                //Game1.addHUDMessage(new HUDMessage("Inicio de sesion exitoso!", 2));
+                Game1.addHUDMessage(new HUDMessage("Login successful!", 2));
             }
             else {
-                Game1.addHUDMessage(new HUDMessage("Error al iniciar sesion!", 2));
+                //Game1.addHUDMessage(new HUDMessage("Error al iniciar sesion, la contraseña o el correo son incorrectos!", 2));
+                Game1.addHUDMessage(new HUDMessage("Error logging in, the password or email is incorrect!", 2));
             }
         }
 
