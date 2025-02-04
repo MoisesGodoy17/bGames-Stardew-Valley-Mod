@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
@@ -85,9 +86,10 @@ public class BuffController
 
     public void ReducedEnergyBuff()
     {
+        Texture2D customIcon = Helper.ModContent.Load<Texture2D>("assets/batery.png");
         Buff reducedEnergyBuff = new Buff(id: "ReducedEnergy",
-            displayName: "Speed mining buff",
-            iconTexture: null,
+            displayName: "Reduce energy buff",
+            iconTexture: customIcon,
             iconSheetIndex: 0,
             duration: 420_000 // 7 minutos
         );

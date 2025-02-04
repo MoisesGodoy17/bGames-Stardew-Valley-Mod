@@ -104,8 +104,8 @@ namespace bGamesPointsMod
 
 
             // Mostrar boton en pantalla del menu
-            bTMenuMod = helper.ModContent.Load<Texture2D>("assets/menu.png");
-            bBMenuMod = new Rectangle(10, 10, 20, 20);
+            bTMenuMod = helper.ModContent.Load<Texture2D>("assets/logo.png");
+            bBMenuMod = new Rectangle(10, 10, 40, 40);
 
             // Crear instancia de BuffController
             pointsBgamesModel = new PointsBgamesModel("", "", "");
