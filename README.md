@@ -63,6 +63,21 @@ Informacion de la habilidad
 Para instalar los servicios de [bGames](https://github.com/BlendedGames-bGames/bGames-dev-services.git), accede al repositorio de GitHub y sigue los pasos que te indicamos.
 Se recomienda utilizar Docker para desplegar los servicios, ya que simplifica el proceso de instalación. Si no tienes instalado GitHub en tu PC, no hay problema. Simplemente descarga el repositorio manualmente. Para ello, haz clic en el botón “<> Código”, donde encontrarás la opción para descargar el archivo.
 
+# Instrucciones para desarrolladores
+## Clonar el repositorio
+Descarga el repositorio desde GitHub ejecutando el siguiente comando:
+```shell
+git clone https://github.com/MoisesGodoy17/bGames-Stardew-Valley-Mod.git
+```
+Para ejecutar el proyecto se requiere:
+- Docker 27.2.0
+- Visual Studio
+- Net 6.0
+- [SMAPI](https://smapi.io/)
+- Stardew Valley
 
+## Instalar SMAPI Library en el proyecto
+Para ejecutar correctamente el proyecto requiere configurar el PATH de destion donde se compilara el mod. En las dependencias del juego actualizar la ruta, ingresar la ruta de la carpeta 'Content' del juego.
 
+![Dependencias del mod](https://github.com/user-attachments/assets/ab332d03-06c8-4e21-884c-80d7f8c47875)
 
