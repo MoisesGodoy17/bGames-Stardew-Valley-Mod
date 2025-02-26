@@ -1,26 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\",
+  "WorkspaceRootPath": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\copia mod 26-09-2024\\bgamespointsmod\\bgamespointsmod\\views\\menumodview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\views\\menumodview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\copia mod 26-09-2024\\bgamespointsmod\\bgamespointsmod\\controllers\\buffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\controllers\\buffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\copia mod 26-09-2024\\bgamespointsmod\\bgamespointsmod\\controllers\\levelupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\controllers\\levelupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\copia mod 26-09-2024\\bgamespointsmod\\bgamespointsmod\\modentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\modentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\copia mod 26-09-2024\\bgamespointsmod\\bgamespointsmod\\models\\levelupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\models\\levelupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|c:\\users\\moise\\onedrive\\escritorio\\c# stardew valley\\bgames-stardew-valley-mod\\bgamespointsmod\\controllers\\userbgamescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92075259-4D38-4CDD-9DD6-350053C666AA}|bGamesPointsMod\\bGamesPointsMod.csproj|solutionrelative:bgamespointsmod\\controllers\\userbgamescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,69 +13,21 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 250,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ModEntry.cs",
-              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\ModEntry.cs",
-              "RelativeDocumentMoniker": "bGamesPointsMod\\ModEntry.cs",
-              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\ModEntry.cs",
-              "RelativeToolTip": "bGamesPointsMod\\ModEntry.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAgwD0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T03:12:11.523Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MenuModView.cs",
-              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Views\\MenuModView.cs",
-              "RelativeDocumentMoniker": "bGamesPointsMod\\Views\\MenuModView.cs",
-              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Views\\MenuModView.cs",
-              "RelativeToolTip": "bGamesPointsMod\\Views\\MenuModView.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAowEMAAABKAAAAAAAAAA==",
+              "Title": "UserBgamesController.cs",
+              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\Controllers\\UserBgamesController.cs",
+              "RelativeDocumentMoniker": "bGamesPointsMod\\Controllers\\UserBgamesController.cs",
+              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\bGames-Stardew-Valley-Mod\\bGamesPointsMod\\Controllers\\UserBgamesController.cs",
+              "RelativeToolTip": "bGamesPointsMod\\Controllers\\UserBgamesController.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T19:04:55.776Z",
+              "WhenOpened": "2025-02-24T04:13:48.675Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BuffController.cs",
-              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Controllers\\BuffController.cs",
-              "RelativeDocumentMoniker": "bGamesPointsMod\\Controllers\\BuffController.cs",
-              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Controllers\\BuffController.cs",
-              "RelativeToolTip": "bGamesPointsMod\\Controllers\\BuffController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAADwv1YAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T04:44:31.051Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LevelUpController.cs",
-              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Controllers\\LevelUpController.cs",
-              "RelativeDocumentMoniker": "bGamesPointsMod\\Controllers\\LevelUpController.cs",
-              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Controllers\\LevelUpController.cs",
-              "RelativeToolTip": "bGamesPointsMod\\Controllers\\LevelUpController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-05T16:31:14.031Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LevelUpModel.cs",
-              "DocumentMoniker": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Models\\LevelUpModel.cs",
-              "RelativeDocumentMoniker": "bGamesPointsMod\\Models\\LevelUpModel.cs",
-              "ToolTip": "C:\\Users\\moise\\OneDrive\\Escritorio\\C# Stardew Valley\\Copia mod 26-09-2024\\bGamesPointsMod\\bGamesPointsMod\\Models\\LevelUpModel.cs",
-              "RelativeToolTip": "bGamesPointsMod\\Models\\LevelUpModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-05T16:51:10.705Z"
             }
           ]
         }

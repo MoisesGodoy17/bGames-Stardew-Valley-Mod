@@ -1,0 +1,9 @@
+{
+    "Name": "bGamesPointsMod",
+    "Author": "bGames",
+    "Version": "1.0.0",
+    "Description": "Un mod que aumenta tus habilidades con los puntos acumulados en bGames",
+    "UniqueID": "bGames.bGamesPointsMod",
+    "EntryDll": "bGamesPointsMod.dll",
+    "UpdateKeys": ["None"]
+  }

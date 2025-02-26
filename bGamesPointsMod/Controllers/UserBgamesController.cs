@@ -34,6 +34,12 @@ namespace bGamesPointsMod.Controllers
         }
 
         public async Task<int> UserCheck(string email, string password) {
+            if ((email == "" || email == " " || email == null) ||
+                (password == "" || password == "" || password == null))
+            {
+                return 3; // Datos vacíos
+            }
+
             string apiUrl = $"http://localhost:3010/player_by_email/{email}";
             try {
                 HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
