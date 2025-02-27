@@ -39,13 +39,13 @@ En el mod, puedes intercambiar tus puntos de bGames por habilidades temporales (
 ### Ventana principal del mod
 ![PT-10-Mostar habilidades](https://github.com/user-attachments/assets/1fe8af8d-0dd9-4887-934b-690ae7b0c0f1)
 
-###Inicio de sesion con cuenta bGames
+### Inicio de sesion con cuenta bGames
 ![PT-09-Nuevo login](https://github.com/user-attachments/assets/803a28b5-770b-49af-863f-c66be550d593)
 
 ### Alertas
 ![PT-08-Notificacion al activar buff](https://github.com/user-attachments/assets/23528358-c03b-4968-b3d1-53fcb1441945)
 
-###Informacion de la habilidad
+### Informacion de la habilidad
 ![PT-06-Duracion del mod](https://github.com/user-attachments/assets/d423e7ca-c13c-48e3-9fbd-11aeae767dbf)
 
 ## Observaciones
