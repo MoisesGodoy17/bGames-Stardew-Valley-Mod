@@ -1,5 +1,8 @@
 # Stardew Valley Mod bGames
 
+[![es](https://img.shields.io/badge/lang-es-green.svg)](./README-ES.md)
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](./README.md)
+
 bGames is a technology designed to create a balance between daily activities and video games. Your daily tasks help you improve in games! With bGames, you can earn points based on your daily activities. Using sensors, your data is collected and transformed into points, which can be used to enhance your character in the game.
 
 This concept led to the development of this mod for Stardew Valley, integrating bGames directly into the game.  
