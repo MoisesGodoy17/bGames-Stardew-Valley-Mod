@@ -55,6 +55,12 @@ En el mod, puedes intercambiar tus puntos de bGames por habilidades temporales (
 - Si te vas a dormir con un Buff activo, ¡se perderá! Planifica cuándo activarlo para aprovechar al máximo sus efectos.
 - La tecnología de bGames está en constante expansión; sin embargo, por el momento, no es posible crear una cuenta. En su lugar, se proporcionarán cuentas pregeneradas con puntos para que puedas usar el mod.
 
+## Instalación
+[Debes tener instalado [SMAPI](https://smapi.io/) para ejecutar el mod]
+- Descargar el archivo 'bGamesPointsMod.rar' del git hub
+- Extraer el archivo descargado y copiar el contenido en la carpeta `Mods` de Satrdew Valley
+- Debes ejecutar en tu maquina los servicios bGames para poder utilizar el mod (en el siguiente punto se explica su instalación)
+
 ## bGames Services Installation:
 Para instalar los servicios de [bGames](https://github.com/BlendedGames-bGames/bGames-dev-services.git), accede al repositorio de GitHub y sigue los pasos que te indicamos.
 Se recomienda utilizar Docker para desplegar los servicios, ya que simplifica el proceso de instalación. Si no tienes instalado GitHub en tu PC, no hay problema. Simplemente descarga el repositorio manualmente. Para ello, haz clic en el botón “<> Código”, donde encontrarás la opción para descargar el archivo.
