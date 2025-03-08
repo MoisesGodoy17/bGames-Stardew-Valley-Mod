@@ -64,6 +64,12 @@ In the mod, you can exchange your bGames points for temporary abilities (Buffs) 
 - If you go to sleep with an active Buff, it will be lost! Plan when to activate it to make the most of its effects.
 - bGames technology is constantly expanding; however, at the moment, it is not possible to create an account. Instead, pre-generated accounts with points will be provided so you can use the mod.
 
+## Installation
+[You must have [SMAPI](https://smapi.io/) installed to run the mod]
+- Download the 'bGamesPointsMod.rar' file from the git hub
+- Extract the downloaded file and copy the contents into the `Mods` folder in Satrdew Valley
+- You must have the bGames services running on your machine to be able to use the mod (installation is explained in the next section)
+
 ---
 
 ## bGames Services Installation:
